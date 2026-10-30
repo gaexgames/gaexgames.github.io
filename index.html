@@ -2,1769 +2,557 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07080b">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101820">
+<meta name="description" content="PlaG 2D — Um quadrado, um caos 2D! Uma aventura de plataforma da GAEX.">
 <meta name="color-scheme" content="dark">
-
-<meta name="description" content="Gaex Games Studio™ cria jogos e experiências independentes. Conheça o ZumbeeFPS, acompanhe as notícias da GAEX e descubra o GaexID.">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-<link rel="canonical" href="https://gaexgames.github.io/">
-
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Gaex Games Studio™">
-<meta property="og:title" content="Gaex Games Studio™ | Construindo mundos, fazendo memórias.">
-<meta property="og:description" content="Jogos, mundos e experiências independentes da Gaex Games Studio™. Conheça o ZumbeeFPS.">
-<meta property="og:url" content="https://gaexgames.github.io/">
-<meta property="og:image" content="https://gaexgames.github.io/gaexgames.png">
-<meta property="og:locale" content="pt_BR">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Gaex Games Studio™ | Construindo mundos, fazendo memórias.">
-<meta name="twitter:description" content="Conheça a GAEX e o ZumbeeFPS.">
-<meta name="twitter:image" content="https://gaexgames.github.io/gaexgames.png">
-
-<link rel="icon" href="favicon.png" type="image/png">
-
-<title>Gaex Games Studio™ | Construindo mundos, fazendo memórias.</title>
-<meta name="google-site-verification" content="TZwLvFfAtQ23xS4fotnnu3QaqVC8Srmk5W8ZmGq-glQ" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-
+<meta property="og:title" content="PlaG 2D — Um quadrado, um caos 2D!">
+<meta property="og:description" content="Entre no caos: cinco mundos, habilidades, explosivos e The FirBoss.">
+<meta property="og:url" content="https://gaexgames.github.io/plag2d/">
+<link rel="canonical" href="https://gaexgames.github.io/plag2d/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>PlaG 2D — v1.0.0</title>
 <style>
-:root{
-  --bg:#07080b;
-  --surface:#0c0e12;
-  --surface2:#12151b;
-  --line:#252a31;
-  --text:#f7f8fb;
-  --muted:#969da8;
-  --max:1200px;
-  --ease:cubic-bezier(.22,.61,.36,1)
-}
-
+:root{--bg:#101820;--panel:#172832;--ink:#f4f0df;--muted:#a9bdc3;--lime:#d6f36a;--cyan:#6de1dc;--orange:#ffab62;--pink:#ff7188}
 *{box-sizing:border-box}
-
-html{scroll-behavior:smooth}
-
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
-  line-height:1.5;
-  overflow-x:hidden
-}
-
-a{color:inherit;text-decoration:none}
-
-img{max-width:100%;display:block}
-
+html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% -10%,#2a4550 0,#101820 62%);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{padding:14px 12px 24px;display:flex;justify-content:center;overflow-x:hidden}
 button{font:inherit}
+.app{width:min(1120px,100%)}
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 12px}
+.brand{display:flex;align-items:center;gap:10px}.brandmark{width:38px;height:38px;background:var(--lime);border:3px solid #101820;box-shadow:4px 4px 0 #536b42;display:grid;place-items:center;color:#101820;font-weight:1000;font-size:19px;transform:rotate(-4deg)}
+.brandname{font-weight:1000;letter-spacing:1.3px;font-size:19px}.brandname span{color:var(--lime)}.tagline{font-size:10px;letter-spacing:1.5px;color:var(--muted);font-weight:800}.version{font-size:10px;color:#9db2b9;border:1px solid #38505a;padding:6px 9px;letter-spacing:1px;font-weight:800;white-space:nowrap}
+.game-shell{position:relative;width:100%;aspect-ratio:16/9;max-height:calc(100dvh - 100px);border:3px solid #314b55;background:#081118;box-shadow:0 18px 55px #0008,8px 8px 0 #080e13;overflow:hidden;touch-action:auto;isolation:isolate}
+.screen{display:block;width:100%;height:100%;touch-action:none;user-select:none;-webkit-user-select:none}
+.hud{position:absolute;inset:0 0 auto 0;padding:clamp(6px,1.3vw,13px);display:flex;align-items:flex-start;justify-content:space-between;gap:8px;pointer-events:none;z-index:3}
+.hud-group{display:flex;gap:clamp(4px,.8vw,8px);align-items:flex-start;flex-wrap:wrap}.hud-card{background:#101c24e8;border:2px solid #3d5861;padding:5px 9px;min-width:67px;box-shadow:3px 3px 0 #091116;color:var(--ink);font-size:9px;font-weight:900;letter-spacing:.7px}.hud-card strong{display:block;color:var(--lime);font-size:clamp(13px,1.8vw,18px);line-height:1.05;margin-top:2px}.hud-card .small{display:block;color:var(--muted);font-size:8px}.lives-value{color:#ff8d9e!important;letter-spacing:2px}.hud-actions{display:flex;gap:6px;pointer-events:auto}.icon-btn{border:2px solid #6b858c;background:#142630ee;color:var(--ink);font-weight:1000;width:36px;height:36px;font-size:16px;box-shadow:3px 3px 0 #091116;cursor:pointer;display:grid;place-items:center;touch-action:manipulation}
+.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:clamp(8px,2vw,20px);background:linear-gradient(180deg,#09131ab8,#09131ae8);text-align:center;z-index:5;touch-action:pan-y}.overlay.hidden{display:none}.panel{width:min(540px,96%);max-height:94%;overflow:auto;background:#172832f5;border:3px solid #58717a;box-shadow:8px 8px 0 #080e13;padding:clamp(13px,2.4vw,24px);position:relative;scrollbar-width:thin;touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}.panel:before{content:"";position:absolute;left:-3px;top:-3px;width:76px;height:7px;background:var(--lime)}
+.eyebrow{color:var(--cyan);font-weight:1000;letter-spacing:2.5px;font-size:10px;margin-bottom:7px}.title{font-weight:1000;font-size:clamp(34px,7vw,66px);letter-spacing:-3px;line-height:.92;margin:0;color:var(--ink);text-shadow:5px 5px 0 #0b151b}.title span{color:var(--lime)}.subtitle{font-size:clamp(11px,1.7vw,14px);color:#b4c6ca;line-height:1.5;margin:12px auto 16px;max-width:420px}.btnrow{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}.game-btn{border:0;background:var(--lime);color:#152028;padding:12px 18px;font-weight:1000;letter-spacing:.8px;font-size:11px;box-shadow:4px 4px 0 #748a45;cursor:pointer;min-width:138px;touch-action:manipulation}.game-btn.secondary{background:#29414b;color:var(--ink);box-shadow:4px 4px 0 #0a141a;border:1px solid #54707a}.game-btn:active,.icon-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #080e13}.instructions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:15px;color:#a9bdc3;font-size:10px;font-weight:800}.instructions b{color:var(--lime)}.recordline{font-size:11px;color:#b5c7ca;margin:12px 0 0}.ability-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0;text-align:left}.ability{background:#10212a;border:1px solid #36515c;padding:8px;font-size:10px;color:#bfd0d2;line-height:1.35}.ability b{display:block;color:var(--lime);font-size:11px;margin-bottom:2px}.level-stamp{display:inline-block;border:1px solid #506a71;color:#dce8df;padding:4px 8px;font-size:10px;font-weight:900;letter-spacing:1px;margin-bottom:10px}
+.mobile-controls{position:absolute;left:0;right:0;bottom:0;padding:8px 10px max(9px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:flex-end;pointer-events:none;z-index:4;opacity:0;transition:opacity .15s}.mobile-controls.active{opacity:1}.control-cluster{display:flex;gap:7px;align-items:flex-end}.move-btns{display:flex;gap:7px}.action-grid{display:grid;grid-template-columns:repeat(3,clamp(42px,6vw,58px));gap:6px}.touch-btn{pointer-events:auto;width:clamp(43px,6vw,58px);height:clamp(43px,6vw,56px);border:2px solid #91a9a9;background:#172b35eF;color:white;font-size:clamp(15px,2.3vw,20px);font-weight:1000;box-shadow:3px 3px 0 #091116;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;display:grid;place-items:center;line-height:1}.touch-btn span{font-size:8px;letter-spacing:.3px}.touch-btn.action{font-size:17px}.touch-btn.jump{background:#d6f36a;color:#16232a;border-color:#f3ffb6}.touch-btn.pulse{border-color:#6de1dc;color:#6de1dc}.touch-btn.dash{border-color:#ffab62;color:#ffbd83}.touch-btn.magnet{border-color:#c6a1ff;color:#d0b5ff}.touch-btn.echo{border-color:#ff8dac;color:#ff9db6}.touch-btn.pressed{transform:translate(2px,2px);box-shadow:1px 1px 0 #091116;background:#35505b}
+.help{display:flex;justify-content:space-between;gap:12px;color:#9bb0b7;font-size:10px;padding:11px 4px 0;line-height:1.45}.help strong{color:var(--lime)}.help .right{text-align:right}
+.rotate-tip{display:none;position:absolute;inset:0;z-index:8;background:#07131bea;align-items:center;justify-content:center;text-align:center;padding:25px;color:#f4f0df;font-weight:900;letter-spacing:1px}.rotate-tip span{display:block;font-size:12px;color:#afc4c6;font-weight:600;letter-spacing:0;margin-top:8px}
+.game-shell:fullscreen{width:100vw;height:100dvh;max-height:none;aspect-ratio:auto;border:0;box-shadow:none}.game-shell:fullscreen .screen{width:100%;height:100%}
+body.pseudo-fullscreen{padding:0;overflow:hidden}body.pseudo-fullscreen .app{position:fixed;inset:0;width:100vw;height:100dvh;z-index:9999;display:flex;flex-direction:column}body.pseudo-fullscreen .brandbar,body.pseudo-fullscreen .help{display:none}body.pseudo-fullscreen .game-shell{flex:1;width:100%;height:100%;min-height:0;max-height:none;aspect-ratio:auto;border:0;box-shadow:none}
+@media(max-width:650px){body{padding:7px 5px 16px}.brandbar{margin-bottom:7px}.brandname{font-size:16px}.tagline{font-size:8px}.version{font-size:8px;padding:5px 6px}.game-shell{border-width:2px;max-height:none}.hud-card{min-width:54px;padding:4px 6px;font-size:8px}.hud-card .small{font-size:7px}.icon-btn{width:31px;height:31px;font-size:14px}.mobile-controls{padding:6px 7px max(7px,env(safe-area-inset-bottom))}.touch-btn{box-shadow:2px 2px 0 #091116}.help{font-size:8px;padding-top:7px}.panel{padding:13px 11px}.subtitle{margin:9px auto 12px}.game-btn{min-width:116px;padding:10px 12px;font-size:10px}.instructions{font-size:9px;gap:8px;margin-top:10px}}
+@media(hover:hover) and (pointer:fine){.mobile-controls{display:none!important}}
+@media(orientation:portrait) and (max-width:760px){.rotate-tip.show{display:flex}}
+@media(max-height:430px) and (orientation:landscape){body{padding:0;overflow:hidden}.app{width:100vw;height:100dvh;display:flex;flex-direction:column}.brandbar,.help{display:none}.game-shell{flex:1;width:100%;height:100%;min-height:0;max-height:none;aspect-ratio:auto;border:0;box-shadow:none}.panel{padding:10px 14px}.subtitle{margin:7px auto 9px}.game-btn{padding:8px 12px}.instructions{margin-top:7px}.recordline{margin-top:7px}.mobile-controls{padding:4px 7px 5px}.touch-btn{height:43px;width:45px}.action-grid{grid-template-columns:repeat(3,45px);gap:4px}}
+
+/* PlaG 2D v0.3: launch-ready menus, shop, settings and touch controls. */
+.menu-panel{width:min(600px,96%);padding:clamp(18px,3vw,30px)}
+.wide-panel{width:min(760px,98%)}
+.settings-panel{width:min(560px,96%)}
+.compact-title{font-size:clamp(30px,5.5vw,48px);letter-spacing:-2px}
+.menu-secondary{margin-top:8px}
+.menu-stats{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:17px;padding-top:12px;border-top:1px solid #38505a;color:#b7c9cb;font-size:11px;font-weight:900}
+.menu-stats strong{color:var(--lime)}
+.level-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin:15px 0 17px;touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.level-card{position:relative;min-height:124px;padding:11px 9px;text-align:left;border:2px solid #3e5962;background:linear-gradient(145deg,#1e3540,#10212a);color:var(--ink);cursor:pointer;box-shadow:3px 3px 0 #080e13;display:flex;flex-direction:column;justify-content:space-between;gap:7px;touch-action:manipulation}
+.level-card:enabled:active,.skin-card:enabled:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #080e13}
+.level-card:disabled{opacity:.43;cursor:not-allowed;filter:grayscale(.65)}
+.level-card .level-number{font-size:10px;letter-spacing:1.6px;color:var(--cyan);font-weight:1000}
+.level-card strong{font-size:12px;line-height:1.15;color:#f3f1e4}
+.level-card .level-status{font-size:9px;color:var(--lime);font-weight:900;text-transform:uppercase}
+.level-card.completed{border-color:#9cb85c;background:linear-gradient(145deg,#34442d,#192b28)}
+.level-card.boss-level{border-color:#b56f83}
+.skin-grid{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:13px 0 18px}
+.skin-card{background:#10232c;border:2px solid #3b5660;box-shadow:3px 3px 0 #080e13;color:var(--ink);padding:10px;text-align:left;display:flex;flex-direction:column;gap:7px;min-width:0}
+.skin-card.selected{border-color:var(--lime);box-shadow:3px 3px 0 #60763c}
+.skin-preview{height:45px;display:flex;align-items:center;justify-content:center;background:#0b1a22;border:1px solid #29444e}
+.skin-blob{width:29px;height:29px;border:4px solid #101d24;position:relative;box-shadow:0 0 15px #ffffff20}
+.skin-blob:after{content:"";position:absolute;left:7px;top:6px;width:4px;height:6px;background:#15242b;box-shadow:9px 0 #15242b}
+.skin-card strong{font-size:12px}
+.skin-card small{font-size:9px;color:#adc0c4;min-height:22px}
+.skin-card button{border:0;background:var(--lime);color:#122028;font-weight:1000;padding:9px 6px;font-size:10px;cursor:pointer;min-height:36px}
+.skin-card button:disabled{background:#354b53;color:#9aadb0;cursor:default}
+.settings-list{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 12px;background:#10232c;border:1px solid #38545e;color:#eaf0e7;font-size:12px;font-weight:900}
+.setting-row select,.setting-toggle{min-width:135px;max-width:58%;padding:9px 10px;border:2px solid #6b858c;background:#203943;color:#fff;font:inherit;font-size:11px;font-weight:900;border-radius:0}
+.setting-toggle{background:#d6f36a;color:#14232b;cursor:pointer}
+.setting-toggle.off{background:#334b55;color:#e5efea}
+.setting-note{color:#9eb3b9;font-size:10px;line-height:1.45}
+.how-extra{text-align:left;max-width:620px}
+.boss-hud{position:absolute;z-index:3;top:clamp(61px,8vw,82px);left:50%;transform:translateX(-50%);width:min(300px,44%);padding:7px 10px;background:#111d25eF;border:2px solid #9b6578;box-shadow:3px 3px 0 #091116;pointer-events:none}
+.boss-hud-top{display:flex;justify-content:space-between;gap:8px;align-items:center;color:#ffe4dc;font-size:9px;font-weight:1000;letter-spacing:.8px}
+.boss-hud-top span{font-size:8px;color:#ffb8c3;text-align:right}
+.boss-bar{height:8px;background:#4b2738;margin-top:6px;border:1px solid #885365;overflow:hidden}
+.boss-bar i{display:block;width:100%;height:100%;background:linear-gradient(90deg,#ff7188,#ffc078);transition:width .15s}
+.mobile-controls{padding:10px 14px max(12px,env(safe-area-inset-bottom));align-items:flex-end;gap:12px}
+.move-pad{display:flex;gap:9px;align-items:flex-end}
+.move-touch{width:clamp(62px,9vw,76px)!important;height:clamp(60px,8vw,72px)!important;font-size:27px!important;background:#1a303bF2!important;border-color:#a8c1c0!important}
+.action-grid{grid-template-columns:repeat(3,clamp(56px,7.3vw,68px));gap:8px}
+.touch-btn{width:clamp(56px,7.3vw,68px);height:clamp(55px,7.2vw,66px);font-size:20px;box-shadow:4px 4px 0 #091116}
+.touch-btn span{font-size:9px;letter-spacing:.5px}
+.touch-btn.jump{border-width:3px}
+.touch-btn.pulse{background:#123942;color:#83f0ed}
+.touch-btn.dash{background:#483025;color:#ffc18b}
+.touch-btn.magnet{background:#302744;color:#d3b6ff}
+.touch-btn.echo{background:#442738;color:#ffabc5}
+.touch-btn:focus-visible,.game-btn:focus-visible,.icon-btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media(max-width:760px){
+ .level-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:38dvh;overflow:auto;padding:3px}
+ .level-card{min-height:88px;padding:8px}
+ .level-card strong{font-size:11px}
+ .skin-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-height:40dvh;overflow:auto;padding:3px}
+ .mobile-controls{padding:8px 9px max(10px,env(safe-area-inset-bottom));gap:7px}
+ .move-pad{gap:7px}
+ .move-touch{width:clamp(54px,12vw,70px)!important;height:clamp(54px,12vw,66px)!important}
+ .action-grid{grid-template-columns:repeat(3,clamp(48px,11vw,62px));gap:6px}
+ .touch-btn{width:clamp(48px,11vw,62px);height:clamp(48px,11vw,62px);font-size:17px}
+ .touch-btn span{font-size:8px}
+ .hud-card{min-width:48px}
+ .boss-hud{top:58px;width:min(240px,48%)}
+}
+@media(max-height:430px) and (orientation:landscape){
+ .mobile-controls{padding:4px 8px 6px;gap:8px}
+ .move-touch{width:52px!important;height:49px!important;font-size:21px!important}
+ .action-grid{grid-template-columns:repeat(3,49px);gap:4px}
+ .touch-btn{width:49px;height:46px;font-size:16px}
+ .touch-btn span{font-size:7px}
+ .level-grid{max-height:30dvh}
+ .skin-grid{max-height:31dvh}
+ .settings-list{margin:7px 0;gap:5px}
+ .setting-row{padding:7px 10px}
+ .boss-hud{top:52px}
+}
+@media(hover:hover) and (pointer:fine){.mobile-controls{display:none!important}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* PlaG 2D v1.0.0 — launch identity and interaction polish */
+:root{--lime:#d9f36a;--cyan:#70e8df;--orange:#ffb45e;--panel:#142630}
+body{background:radial-gradient(ellipse at 50% -18%,#365765 0,#14242d 42%,#091219 100%)}
+.brandbar{align-items:center;margin-bottom:14px}
+.brandmark{width:46px;height:46px;transform:none;border:2px solid #efffa8;box-shadow:4px 4px 0 #607b38;background:linear-gradient(145deg,#eaff94,#b8d94c);position:relative;overflow:hidden}
+.brandmark svg{width:36px;height:36px;display:block}
+.brandname{font-size:22px;letter-spacing:1.8px}
+.tagline{font-size:10px;letter-spacing:1.25px;color:#d7ef9a}
+.version{border-color:#5f7a70;background:#0d1a22;padding:8px 12px;color:#d9f36a}
+.game-shell{border:3px solid #647e7d;box-shadow:0 24px 70px #0009,7px 7px 0 #060d12;border-radius:3px}
+.panel{border-color:#708a86;background:linear-gradient(150deg,#203a43f7,#12232cf7);box-shadow:9px 9px 0 #050c11,0 18px 55px #0007}
+.panel:before{width:100px;height:5px}
+.menu-panel{width:min(650px,96%);padding:clamp(20px,4vw,38px)}
+.menu-logo{font-size:clamp(47px,9vw,82px);font-weight:1000;line-height:.86;letter-spacing:-5px;text-shadow:5px 6px 0 #08151b;margin:3px 0 5px}
+.menu-logo span{color:var(--lime)}
+.slogan{font-weight:1000;color:#e6f5b4;font-size:clamp(13px,2vw,17px);letter-spacing:.2px;margin:9px 0 4px}
+.menu-subtitle{max-width:470px}
+.menu-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:17px}
+.menu-actions .game-btn{width:100%;min-width:0;min-height:48px;font-size:12px}
+.menu-actions .primary-action{grid-column:1/-1;min-height:57px;font-size:15px;letter-spacing:1.5px}
+.menu-profile{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:10px 12px;margin:14px 0 0;background:#09192280;border:1px solid #3b5b62;color:#c6d8d3;font-size:11px;font-weight:900}
+.menu-profile strong{color:var(--lime)}
+.menu-stats{margin-top:10px}
+.game-btn{border-radius:2px;min-height:46px;font-size:12px;transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
+.game-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.game-btn:focus-visible,.icon-btn:focus-visible,.touch-btn:focus-visible,.skin-card button:focus-visible,.panel-close:focus-visible{outline:3px solid #fff2a5;outline-offset:3px}
+.panel-close{position:absolute;right:9px;top:9px;width:36px;height:36px;border:1px solid #6d888d;background:#0b1a22;color:#f4f0df;font-size:24px;line-height:1;cursor:pointer;z-index:2;touch-action:manipulation}
+.panel-close:hover{background:#314b54}
+.overlay{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.welcome-panel{width:min(590px,96%);text-align:left}
+.welcome-panel .title,.welcome-panel .eyebrow{text-align:center}
+.welcome-field{display:block;margin:13px 0 8px;color:#d9e6df;font-weight:900;font-size:12px;text-align:left}
+.welcome-field input{display:block;width:100%;margin-top:7px;padding:14px 13px;background:#071820;border:2px solid #547078;color:#fff;font:700 16px system-ui;outline:none}
+.welcome-field input:focus{border-color:var(--lime);box-shadow:0 0 0 3px #d9f36a25}
+.welcome-row{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap;margin:10px 0}
+.welcome-row select{background:#071820;color:#f4f0df;border:1px solid #58727a;padding:9px 12px}
+.consent-check{display:flex;align-items:flex-start;gap:10px;margin:13px 0;padding:12px;background:#0b1c24;border:1px solid #3d5c63;color:#d0dfd9;font-size:12px;line-height:1.5}
+.consent-check input{width:20px;height:20px;flex:0 0 auto;accent-color:#d9f36a;margin-top:1px}
+.policy-links{display:flex;gap:12px;flex-wrap:wrap;margin:7px 0 12px}
+.text-link{background:none;border:0;padding:4px 0;color:#9debe1;text-decoration:underline;font-weight:900;font-size:12px;cursor:pointer}
+.small-note{font-size:10px;color:#9bb1b6;line-height:1.5;text-align:center}
+.policy-copy{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;text-align:left;color:#c6d8d5;font-size:12px;line-height:1.65;max-height:54dvh;overflow:auto;padding:4px 8px}
+.policy-copy h3{font-size:13px;color:var(--lime);margin:13px 0 4px}
+.policy-copy p{margin:5px 0 10px}
+.achievements-grid{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;max-height:54dvh;overflow:auto;padding:4px}
+.achievement-card{display:flex;gap:10px;align-items:center;text-align:left;padding:11px;background:#0b1c24;border:1px solid #35535d;min-height:78px}
+.achievement-card.unlocked{border-color:#9cbf59;background:linear-gradient(135deg,#263d36,#10232a)}
+.achievement-icon{width:39px;height:39px;flex:0 0 39px;display:grid;place-items:center;background:#263f48;border:1px solid #678078;font-size:20px}
+.achievement-card.unlocked .achievement-icon{background:#d9f36a;color:#122027;border-color:#f1ffad}
+.achievement-card strong{display:block;color:#f6f3e5;font-size:11px;margin-bottom:4px}
+.achievement-card small{display:block;color:#a9bdc3;font-size:10px;line-height:1.35}
+.achievement-count{color:var(--lime);font-size:11px;font-weight:1000;margin:5px 0 12px}
+.achievement-toast{position:absolute;left:50%;top:14%;transform:translate(-50%,-15px);opacity:0;pointer-events:none;z-index:9;background:#10252c;border:2px solid var(--lime);box-shadow:5px 5px 0 #050b10;padding:10px 16px;min-width:min(310px,86%);text-align:center;transition:opacity .2s,transform .2s}
+.achievement-toast.show{opacity:1;transform:translate(-50%,0)}
+.achievement-toast b{display:block;color:var(--lime);font-size:10px;letter-spacing:1.2px}
+.achievement-toast span{display:block;color:#fff3cf;font-size:13px;font-weight:1000;margin-top:3px}
+.boss-hud{z-index:4}
+.mobile-controls{padding:12px 14px max(14px,env(safe-area-inset-bottom));gap:10px}
+.move-pad{display:flex;gap:10px;align-items:center}
+.move-touch{width:clamp(72px,13vw,88px)!important;height:clamp(70px,13vw,86px)!important;font-size:27px!important;border-radius:4px!important;background:#102b35ee!important;border:2px solid #a3bdba!important;box-shadow:0 5px 0 #050d12!important}
+.action-grid{grid-template-columns:repeat(3,clamp(64px,10vw,78px));gap:8px}
+.touch-btn{width:clamp(64px,10vw,78px);height:clamp(62px,10vw,76px);border-radius:4px;font-size:21px;box-shadow:0 5px 0 #050d12}
+.touch-btn span{font-size:10px;letter-spacing:.4px}
+.touch-btn.jump{background:linear-gradient(145deg,#eaff9d,#c3e65d);border-color:#f7ffc7}
+.touch-btn.pressed{transform:translateY(4px);box-shadow:0 1px 0 #050d12}
+.mobile-controls.active{opacity:1}
+.bomb-hint{font-weight:1000;color:#fff0ac}
+@media(max-width:760px){
+ body{padding:6px 4px max(8px,env(safe-area-inset-bottom))}
+ .app{width:100%}.game-shell{border-width:2px}
+ .menu-actions{gap:8px}.menu-actions .game-btn{min-height:49px;padding:11px 7px;font-size:11px}
+ .menu-actions .primary-action{min-height:57px;font-size:14px}
+ .panel-close{width:40px;height:40px;font-size:27px}
+ .achievements-grid{grid-template-columns:1fr;max-height:48dvh}
+ .policy-copy{max-height:49dvh}
+ .mobile-controls{padding:10px 12px max(12px,env(safe-area-inset-bottom));gap:8px}
+ .move-pad{gap:9px}
+ .move-touch{width:clamp(68px,16vw,86px)!important;height:clamp(68px,16vw,84px)!important}
+ .action-grid{grid-template-columns:repeat(3,clamp(58px,14vw,76px));gap:7px}
+ .touch-btn{width:clamp(58px,14vw,76px);height:clamp(58px,14vw,76px);font-size:20px}
+ .touch-btn span{font-size:9px}
+}
+@media(max-height:430px) and (orientation:landscape){
+ .mobile-controls{padding:5px 11px 7px;gap:8px}
+ .move-touch{width:58px!important;height:55px!important}
+ .action-grid{grid-template-columns:repeat(3,56px);gap:5px}
+ .touch-btn{width:56px;height:54px;font-size:16px}.touch-btn span{font-size:7px}
+ .welcome-panel{max-height:92dvh;overflow:auto}.achievements-grid{max-height:42dvh}
+}
+@media(hover:hover) and (pointer:fine){.mobile-controls{display:none!important}}
+@media(prefers-reduced-motion:reduce){.achievement-toast,.game-btn{transition:none}}
 
-/* LOADER */
-
-#loader{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  background:#07080b;
-  display:grid;
-  place-items:center;
-  transition:opacity .6s var(--ease),visibility .6s
-}
-
-.loaded #loader{
-  opacity:0;
-  visibility:hidden
-}
-
-.loader-wrap{text-align:center}
-
-.loader-logo{
-  width:160px;
-  margin:auto auto 26px
-}
-
-.loader-line{
-  width:180px;
-  height:2px;
-  background:#20242b;
-  overflow:hidden;
-  margin:auto
-}
-
-.loader-line span{
-  display:block;
-  width:45%;
-  height:100%;
-  background:#fff;
-  animation:load 1.15s infinite var(--ease)
-}
-
-.loader-text{
-  margin-top:12px;
-  font-size:9px;
-  letter-spacing:.22em;
-  color:#777f8a;
-  text-transform:uppercase
-}
-
-@keyframes load{
-  0%{transform:translateX(-110%)}
-  55%{transform:translateX(110%)}
-  100%{transform:translateX(110%)}
-}
-
-/* HEADER */
-
-.header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  height:70px;
-  z-index:5000;
-  background:rgba(7,8,11,.72);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(255,255,255,.07)
-}
-
-.header-inner{
-  width:min(var(--max),94%);
-  height:100%;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  gap:26px
-}
-
-.brand img{width:116px}
-
-.nav{
-  display:flex;
-  align-items:center;
-  gap:23px;
-  margin-left:auto
-}
-
-.nav a{
-  font-size:11px;
-  color:var(--muted);
-  font-weight:600;
-  transition:.18s
-}
-
-.nav a:hover{color:#fff}
-
-.socials{
-  display:flex;
-  align-items:center;
-  gap:4px;
-  padding-left:11px;
-  border-left:1px solid var(--line)
-}
-
-.socials a{
-  width:31px;
-  height:31px;
-  border-radius:8px;
-  display:grid;
-  place-items:center;
-  color:var(--muted);
-  transition:.18s
-}
-
-.socials a:hover{
-  background:#14171d;
-  color:#fff
-}
-
-.discord{
-  display:flex!important;
-  width:auto!important;
-  gap:7px;
-  padding:0 10px;
-  background:#5865f2;
-  color:#fff!important;
-  font-weight:800
-}
-
-.menu{
-  display:none;
-  margin-left:auto;
-  width:38px;
-  height:38px;
-  border:1px solid var(--line);
-  background:#0d1015;
-  color:#fff;
-  border-radius:9px
-}
-
-/* HERO */
-
-.container{
-  width:min(var(--max),92%);
-  margin:auto
-}
-
-.hero{
-  min-height:calc(100vh - 70px);
-  padding:105px 0 58px;
-  display:grid;
-  grid-template-columns:1.06fr .94fr;
-  gap:55px;
-  align-items:center
-}
-
-.eyebrow{
-  font-size:9px;
-  letter-spacing:.24em;
-  font-weight:800;
-  text-transform:uppercase;
-  color:#808894
-}
-
-.hero-logo{
-  width:min(390px,78%);
-  margin:14px 0 19px
-}
-
-.hero h1{
-  font-size:clamp(43px,5.5vw,76px);
-  line-height:.98;
-  letter-spacing:-.07em;
-  margin:0 0 16px
-}
-
-.hero h1 span{color:#969da8}
-
-.hero p{
-  max-width:590px;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.8
-}
-
-.actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:22px
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:10px 15px;
-  border:1px solid var(--line);
-  border-radius:9px;
-  font-size:10px;
-  font-weight:800;
-  transition:.2s
-}
-
-.btn:hover{
-  transform:translateY(-2px);
-  border-color:#565d68
-}
-
-.primary{
-  background:#fff;
-  color:#050607;
-  border-color:#fff
-}
-
-.hero-card{
-  min-height:425px;
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:
-    radial-gradient(circle at 50% 30%,rgba(255,255,255,.1),transparent 35%),
-    linear-gradient(145deg,#151820,#0a0b0f);
-  display:grid;
-  place-items:center;
-  position:relative;
-  overflow:hidden
-}
-
-.hero-card:before{
-  content:"";
-  position:absolute;
-  width:290px;
-  height:290px;
-  border:1px solid rgba(255,255,255,.13);
-  border-radius:50%;
-  box-shadow:
-    0 0 0 60px rgba(255,255,255,.012),
-    0 0 0 120px rgba(255,255,255,.006)
-}
-
-.hero-card:after{
-  content:"";
-  position:absolute;
-  left:8%;
-  right:8%;
-  top:54%;
-  height:1px;
-  background:rgba(255,255,255,.13)
-}
-
-.hero-card img{
-  width:220px;
-  position:relative;
-  z-index:2;
-  filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))
-}
-
-/* QUICK */
-
-.quick{
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line)
-}
-
-.quick-inner{
-  width:min(var(--max),92%);
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(4,1fr)
-}
-
-.quick-item{
-  padding:15px 18px;
-  border-right:1px solid var(--line)
-}
-
-.quick-item:last-child{border-right:0}
-
-.quick-item strong{
-  display:block;
-  font-size:11px
-}
-
-.quick-item span{
-  color:var(--muted);
-  font-size:9px
-}
-
-/* SECTIONS */
-
-.section{
-  padding:68px 0;
-  border-bottom:1px solid var(--line)
-}
-
-.head{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:25px;
-  margin-bottom:25px
-}
-
-.num{
-  font-size:9px;
-  color:#7d8590;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  font-weight:800
-}
-
-.title{
-  font-size:clamp(33px,4.2vw,57px);
-  line-height:.98;
-  letter-spacing:-.065em;
-  margin:5px 0 0
-}
-
-.desc{
-  max-width:430px;
-  font-size:11px;
-  color:var(--muted);
-  line-height:1.7
-}
-
-/* GAME */
-
-.game{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  border:1px solid var(--line);
-  border-radius:18px;
-  overflow:hidden;
-  background:var(--surface)
-}
-
-.game-art{
-  min-height:390px;
-  display:grid;
-  place-items:center;
-  background:
-    radial-gradient(circle at 50% 28%,rgba(255,255,255,.075),transparent 42%),
-    linear-gradient(145deg,#171b23,#090a0d);
-  padding:28px
-}
-
-.game-art img{
-  width:min(380px,90%);
-  max-height:320px;
-  object-fit:contain;
-  filter:drop-shadow(0 25px 50px rgba(0,0,0,.65))
-}
-
-.game-copy{
-  padding:36px;
-  display:flex;
-  justify-content:center;
-  flex-direction:column
-}
-
-.pill{
-  width:max-content;
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:6px 9px;
-  font-size:8px;
-  letter-spacing:.15em;
-  font-weight:800;
-  color:var(--muted)
-}
-
-.game-copy h3{
-  font-size:40px;
-  letter-spacing:-.06em;
-  line-height:1;
-  margin:14px 0 10px
-}
-
-.game-copy p{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.8
-}
-
-.facts{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin:16px 0 21px
-}
-
-.fact{
-  border:1px solid var(--line);
-  background:var(--surface2);
-  border-radius:7px;
-  padding:6px 8px;
-  color:#c9cdd4;
-  font-size:8px
-}
-
-/* NEWS */
-
-.news{
-  display:grid;
-  grid-template-columns:1.18fr .9fr .9fr;
-  gap:9px
-}
-
-.news-card{
-  min-height:210px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:var(--surface);
-  padding:22px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  transition:.2s
-}
-
-.news-card:hover{
-  background:var(--surface2);
-  transform:translateY(-3px)
-}
-
-.news-main{
-  background:linear-gradient(145deg,#151820,#0c0e12)
-}
-
-.date{
-  font-size:8px;
-  letter-spacing:.18em;
-  color:#7f8792;
-  font-weight:800
-}
-
-.news-card h3{
-  font-size:21px;
-  letter-spacing:-.045em;
-  line-height:1.08;
-  margin:10px 0 7px
-}
-
-.news-card p{
-  font-size:10px;
-  color:var(--muted);
-  line-height:1.7
-}
-
-.news-card a{
-  font-size:9px;
-  font-weight:800
-}
-
-/* ABOUT / ID */
-
-.about{
-  display:grid;
-  grid-template-columns:1fr .8fr .8fr;
-  gap:9px
-}
-
-.about-card{
-  min-height:175px;
-  padding:22px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:var(--surface)
-}
-
-.about-card h3{
-  font-size:17px;
-  margin-bottom:9px
-}
-
-.about-card p{
-  font-size:10px;
-  color:var(--muted);
-  line-height:1.8
-}
-
-.meaning{
-  border-left:2px solid #fff
-}
-
-.meaning strong{color:#fff}
-
-.id-box{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  padding:27px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:var(--surface)
-}
-
-.id-box h3{
-  font-size:34px;
-  letter-spacing:-.06em;
-  margin-bottom:4px
-}
-
-.id-box p{
-  color:var(--muted);
-  font-size:10px;
-  max-width:680px
-}
-
-.status{
-  padding:7px 10px;
-  white-space:nowrap;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:#7e8791;
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.14em
-}
-
-/* COMMUNITY */
-
-.community{
-  display:grid;
-  grid-template-columns:1.05fr .95fr;
-  gap:9px
-}
-
-.discord-card,
-.community-card{
-  padding:28px;
-  border:1px solid var(--line);
-  border-radius:15px;
-  background:var(--surface)
-}
-
-.discord-card{
-  background:linear-gradient(145deg,#171923,#0d0f14)
-}
-
-.discord-card i{
-  font-size:25px;
-  margin-bottom:15px
-}
-
-.discord-card h3,
-.community-card h3{
-  font-size:26px;
-  letter-spacing:-.05em;
-  margin-bottom:7px
-}
-
-.discord-card p,
-.community-card p{
-  font-size:10px;
-  color:var(--muted);
-  line-height:1.8
-}
-
-.discord-card .btn{
-  margin-top:18px;
-  background:#5865f2;
-  color:#fff;
-  border-color:#5865f2
-}
-
-/* SOCIAL GRID */
-
-.social-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:9px
-}
-
-.social-card{
-  padding:18px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:var(--surface);
-  transition:.18s
-}
-
-.social-card:hover{
-  transform:translateY(-2px);
-  background:var(--surface2)
-}
-
-.social-card i{
-  font-size:19px;
-  margin-bottom:14px
-}
-
-.social-card strong{
-  display:block;
-  font-size:11px
-}
-
-.social-card span{
-  color:var(--muted);
-  font-size:8px
-}
-
-/* FOOTER */
-
-footer{
-  border-top:1px solid var(--line)
-}
-
-.footer{
-  width:min(var(--max),92%);
-  margin:auto;
-  padding:43px 0 23px
-}
-
-.footer-grid{
-  display:grid;
-  grid-template-columns:1.35fr .7fr .8fr .7fr;
-  gap:35px
-}
-
-.footer-logo{
-  width:120px;
-  margin-bottom:12px
-}
-
-.footer-copy{
-  font-size:9px;
-  color:var(--muted);
-  line-height:1.8;
-  max-width:350px
-}
-
-.footer h4{
-  font-size:8px;
-  letter-spacing:.17em;
-  text-transform:uppercase;
-  margin-bottom:11px
-}
-
-.footer-links{
-  display:flex;
-  flex-direction:column;
-  gap:5px
-}
-
-.footer-links a{
-  font-size:9px;
-  color:var(--muted)
-}
-
-.footer-links a:hover{color:#fff}
-
-.footer-socials{
-  display:flex;
-  gap:6px
-}
-
-.footer-socials a{
-  width:29px;
-  height:29px;
-  border:1px solid var(--line);
-  border-radius:8px;
-  display:grid;
-  place-items:center;
-  color:var(--muted)
-}
-
-.footer-socials a:hover{
-  color:#fff;
-  background:var(--surface2)
-}
-
-.copyright{
-  margin-top:31px;
-  padding-top:13px;
-  border-top:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-  color:#727a84;
-  font-size:8px
-}
-
-/* REVEAL */
-
-.reveal{
-  opacity:0;
-  transform:translateY(18px);
-  transition:
-    opacity .65s var(--ease),
-    transform .65s var(--ease)
-}
-
-.reveal.visible{
-  opacity:1;
-  transform:none
-}
-
-/* MOBILE MENU */
-
-.mobile-menu{
-  display:none;
-  position:absolute;
-  top:68px;
-  left:3%;
-  right:3%;
-  padding:10px;
-  border:1px solid var(--line);
-  background:#0d1015;
-  border-radius:12px
-}
-
-.mobile-menu.open{
-  display:flex;
-  flex-direction:column
-}
-
-.mobile-menu a{
-  padding:9px;
-  border-radius:7px;
-  color:var(--muted);
-  font-size:11px
-}
-
-.mobile-menu a:hover{
-  background:var(--surface2);
-  color:#fff
-}
-
-/* RESPONSIVE */
-
-@media(max-width:940px){
-
-  .nav{display:none}
-
-  .menu{display:block}
-
-  .hero{
-    grid-template-columns:1fr
-  }
-
-  .hero-card{
-    min-height:330px
-  }
-
-  .game{
-    grid-template-columns:1fr
-  }
-
-  .news{
-    grid-template-columns:1fr 1fr
-  }
-
-  .news-main{
-    grid-column:span 2
-  }
-
-  .about{
-    grid-template-columns:1fr 1fr
-  }
-
-  .community{
-    grid-template-columns:1fr
-  }
-
-  .social-grid{
-    grid-template-columns:1fr 1fr
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr 1fr
-  }
-
-  .quick-inner{
-    grid-template-columns:1fr 1fr
-  }
-
-  .quick-item:nth-child(2){
-    border-right:0
-  }
-
-  .quick-item:nth-child(-n+2){
-    border-bottom:1px solid var(--line)
-  }
-}
-
-@media(max-width:560px){
-
-  .header-inner{
-    width:94%
-  }
-
-  .socials{
-    display:none
-  }
-
-  .hero{
-    padding-top:100px
-  }
-
-  .hero-logo{
-    width:285px
-  }
-
-  .hero h1{
-    font-size:42px
-  }
-
-  .hero-card{
-    min-height:270px
-  }
-
-  .hero-card img{
-    width:170px
-  }
-
-  .section{
-    padding:52px 0
-  }
-
-  .news{
-    grid-template-columns:1fr
-  }
-
-  .news-main{
-    grid-column:auto
-  }
-
-  .about{
-    grid-template-columns:1fr
-  }
-
-  .id-box{
-    display:block;
-    padding:24px
-  }
-
-  .status{
-    display:inline-block;
-    margin-top:17px
-  }
-
-  .social-grid{
-    grid-template-columns:1fr
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr
-  }
-
-  .copyright{
-    flex-direction:column
-  }
-}
-
-@media(prefers-reduced-motion:reduce){
-
-  html{
-    scroll-behavior:auto
-  }
-
-  .reveal{
-    opacity:1;
-    transform:none;
-    transition:none
-  }
-
-  .loader-line span{
-    animation:none
-  }
-}
 </style>
-
-<!-- SEO / STRUCTURED DATA -->
-
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"WebSite",
-  "name":"Gaex Games Studio™",
-  "alternateName":"GAEX",
-  "url":"https://gaexgames.github.io/",
-  "inLanguage":"pt-BR"
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Organization",
-  "name":"Gaex Games Studio™",
-  "alternateName":"GAEX",
-  "url":"https://gaexgames.github.io/",
-  "logo":"https://gaexgames.github.io/gaexgames.png",
-  "sameAs":[
-    "https://instagram.com/gaexgames",
-    "https://youtube.com/@gaexgames",
-    "https://www.tiktok.com/@gaexgames",
-    "https://gaexgames.itch.io/"
-  ]
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"VideoGame",
-  "name":"ZumbeeFPS",
-  "description":"FPS de zumbis arcade, offline e singleplayer desenvolvido pela Gaex Games Studio™.",
-  "genre":[
-    "First-person shooter",
-    "Zombie",
-    "Arcade"
-  ],
-  "url":"https://gaexgames.itch.io/zumbeefps",
-  "image":"https://gaexgames.github.io/zumbeefps.png",
-  "applicationCategory":"Game",
-  "operatingSystem":"Windows, Android",
-  "author":{
-    "@type":"Organization",
-    "name":"Gaex Games Studio™"
-  }
-}
-</script>
-
 </head>
-
 <body>
-
-<!-- LOADER -->
-
-<div id="loader" aria-hidden="true">
-  <div class="loader-wrap">
-    <img class="loader-logo" src="gaexgames.png" alt="">
-    <div class="loader-line">
-      <span></span>
+<div class="app" id="app">
+  <header class="brandbar"><div class="brand"><div class="brandmark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M6 5h24l5 5v25H6z" fill="#142630"/><path d="M12 11h13a7 7 0 0 1 0 14H19v6h-7z" fill="#d9f36a"/><path d="M19 17h5a2 2 0 0 1 0 4h-5z" fill="#142630"/><path d="M29 4h7v7" fill="none" stroke="#142630" stroke-width="3"/><path d="M4 29h5v7" fill="none" stroke="#142630" stroke-width="3"/></svg></div><div><div class="brandname">PlaG <span>2D</span></div><div class="tagline" data-i18n="slogan">UM QUADRADO, UM CAOS 2D!</div></div></div><div class="version">PlaG 2D · v1.0.0</div></header>
+  <main class="game-shell" id="gameShell">
+    <canvas class="screen" id="game" width="960" height="540" aria-label="Jogo PlaG 2D"></canvas>
+    <div class="hud" id="hud" style="display:none">
+      <div class="hud-group">
+        <div class="hud-card"><span class="small" data-i18n="scoreLabel">PONTOS</span><strong id="score">00000</strong></div>
+        <div class="hud-card"><span class="small" data-i18n="bitsLabel">CACAU BITS</span><strong id="bits">0/5</strong></div>
+        <div class="hud-card"><span class="small" data-i18n="livesLabel">VIDAS</span><strong class="lives-value" id="lives">♥ ♥ ♥</strong></div>
+        <div class="hud-card"><span class="small" data-i18n="pulseLabel">PULSOS</span><strong id="charges">◆ ◆ ◆</strong></div>
+      </div>
+      <div class="hud-group"><div class="hud-card"><span class="small" data-i18n="stageLabel">FASE</span><strong id="levelName">01</strong></div><div class="hud-actions"><button class="icon-btn" id="fullscreenBtn" aria-label="Tela cheia" title="Tela cheia">⛶</button><button class="icon-btn" id="pauseBtn" aria-label="Pausar" title="Pausar">Ⅱ</button></div></div>
     </div>
-    <div class="loader-text">Inicializando GAEX</div>
-  </div>
+    <div class="boss-hud" id="bossHud" style="display:none"><div class="boss-hud-top"><strong>THE FIRBOSS</strong><span id="bossState">NÚCLEO BLINDADO</span></div><div class="boss-bar"><i id="bossHealthBar"></i></div></div>
+
+
+    <div class="overlay" id="welcomeOverlay"><div class="panel welcome-panel"><div class="eyebrow" data-i18n="welcomeEyebrow">BOAS-VINDAS À GAEX</div><h1 class="title compact-title">PlaG <span>2D</span></h1><p class="subtitle" data-i18n="welcomeSubtitle">Antes de entrar no caos, escolha um apelido e confira as regras do jogo.</p><div class="welcome-row"><label for="welcomeLang" data-i18n="languageLabel">Idioma</label><select id="welcomeLang"><option value="pt">Português (Brasil)</option><option value="es">Español</option><option value="en">English</option></select></div><div class="welcome-field"><label for="usernameInput" data-i18n="usernameLabel">SEU NOME DE JOGADOR</label><input id="usernameInput" type="text" maxlength="16" minlength="3" autocomplete="nickname" placeholder="Ex.: Pudinsz" inputmode="text"></div><div class="small-note" data-i18n="usernameHint">Use um apelido. Não coloque seu nome completo, telefone, endereço ou outras informações pessoais.</div><div class="policy-links"><button class="text-link" id="privacyLink" data-i18n="privacyLink">Política de Privacidade</button><button class="text-link" id="termsLink" data-i18n="termsLink">Termos de Serviço</button></div><label class="consent-check"><input type="checkbox" id="consentCheck"><span data-i18n="consentText">Li e aceito a Política de Privacidade e os Termos de Serviço da GAEX.</span></label><button class="game-btn primary-action" id="enterGameBtn" disabled data-i18n="enterGameBtn">ENTRAR NO JOGO ▶</button><p class="small-note" data-i18n="localDataNote">Seu apelido e seu progresso ficam salvos apenas neste navegador. O jogo não envia esses dados para servidores.</p></div></div>
+    <div class="overlay hidden" id="policyOverlay"><div class="panel wide-panel"><button class="panel-close" data-close="policyOverlay" aria-label="Fechar">×</button><div class="eyebrow" id="policyEyebrow">GAEX · DOCUMENTO</div><h2 class="title compact-title" id="policyTitle">Política</h2><div class="policy-copy" id="policyContent"></div><div class="btnrow"><button class="game-btn secondary" data-close="policyOverlay" data-i18n="closeBtn">FECHAR</button></div></div></div>
+
+    <div class="overlay hidden" id="menuOverlay"><div class="panel menu-panel"><div class="eyebrow" data-i18n="menuEyebrow">GAEX GAMES STUDIO APRESENTA</div><div class="menu-logo">PlaG <span>2D</span></div><div class="slogan" data-i18n="slogan">UM QUADRADO, UM CAOS 2D!</div><p class="subtitle menu-subtitle" data-i18n="menuSubtitle">Cinco mundos feitos à mão, habilidades imprevisíveis e um chefão no Núcleo Caótico. Prepare-se!</p><div class="menu-actions"><button class="game-btn primary-action" id="playBtn" data-i18n="playBtn">JOGAR ▶</button><button class="game-btn secondary" id="shopBtn" data-i18n="shopBtn">LOJA DE SKINS</button><button class="game-btn secondary" id="achievementsBtn" data-i18n="achievementsBtn">CONQUISTAS</button><button class="game-btn secondary" id="settingsBtn" data-i18n="settingsBtn">CONFIGURAÇÕES</button><button class="game-btn secondary" id="howBtn" data-i18n="howBtn">COMO JOGAR</button></div><div class="menu-profile"><span id="profileLine">JOGADOR: PLA</span><span id="profileProgress">PROGRESSO 0/5</span></div><div class="menu-stats"><span id="recordLine">Recorde: 0</span><span id="walletLine">Carteira: 0 pts</span></div></div></div>
+
+    <div class="overlay hidden" id="levelSelectOverlay"><div class="panel wide-panel"><button class="panel-close" data-close="levelSelectOverlay" aria-label="Close">×</button><div class="eyebrow" data-i18n="levelEyebrow">SELEÇÃO DE FASES</div><h2 class="title compact-title" data-i18n="levelTitle">Escolha seu <span>caminho</span></h2><p class="subtitle" data-i18n="levelSubtitle">As fases são liberadas conforme você avança. Seu progresso fica salvo neste aparelho.</p><div class="level-grid" id="levelCards"></div><div class="btnrow"><button class="game-btn secondary" id="levelBackBtn" data-i18n="backMenu">VOLTAR AO MENU</button></div></div></div>
+
+    <div class="overlay hidden" id="shopOverlay"><div class="panel wide-panel"><button class="panel-close" data-close="shopOverlay" aria-label="Close">×</button><div class="eyebrow" data-i18n="shopEyebrow">PERSONALIZE SEU PLA</div><h2 class="title compact-title" data-i18n="shopTitle">Loja de <span>skins</span></h2><p class="subtitle" id="shopWallet">Pontos disponíveis: 0</p><div class="skin-grid" id="skinGrid"></div><div class="btnrow"><button class="game-btn secondary" id="shopBackBtn" data-i18n="backMenu">VOLTAR AO MENU</button></div></div></div>
+
+
+    <div class="overlay hidden" id="achievementsOverlay"><div class="panel wide-panel"><button class="panel-close" data-close="achievementsOverlay" aria-label="Close">×</button><div class="eyebrow" data-i18n="achievementsEyebrow">SEUS MARCOS</div><h2 class="title compact-title" data-i18n="achievementsTitle">Conquis<span>tas</span></h2><div class="achievement-count" id="achievementCount">0/8</div><div class="achievements-grid" id="achievementsGrid"></div><div class="btnrow"><button class="game-btn secondary" data-close="achievementsOverlay" data-i18n="backMenu">VOLTAR AO MENU</button></div></div></div>
+
+    <div class="overlay hidden" id="settingsOverlay"><div class="panel settings-panel"><button class="panel-close" data-close="settingsOverlay" aria-label="Close">×</button><div class="eyebrow" data-i18n="settingsEyebrow">AJUSTE SUA EXPERIÊNCIA</div><h2 class="title compact-title" data-i18n="settingsTitle">Configura<span>ções</span></h2><div class="settings-list">
+      <label class="setting-row"><span data-i18n="languageLabel">Idioma</span><select id="languageSelect"><option value="pt">Português (Brasil)</option><option value="es">Español</option><option value="en">English</option></select></label>
+      <div class="setting-row"><span data-i18n="musicLabel">Música</span><button class="setting-toggle" id="musicToggle">LIGADA</button></div>
+      <div class="setting-row"><span data-i18n="soundLabel">Efeitos sonoros</span><button class="setting-toggle" id="soundToggle">LIGADOS</button></div>
+      <div class="setting-row"><span data-i18n="shakeLabel">Tremor de câmera</span><button class="setting-toggle" id="shakeToggle">LIGADO</button></div>
+    </div><p class="setting-note" data-i18n="settingsNote">As preferências e o progresso são salvos localmente neste navegador.</p><div class="btnrow"><button class="game-btn secondary" id="settingsBackBtn" data-i18n="backMenu">VOLTAR AO MENU</button><button class="game-btn secondary" id="resetDataBtn" data-i18n="resetDataBtn">APAGAR MEUS DADOS</button></div></div></div>
+
+    <div class="overlay hidden" id="pauseOverlay"><div class="panel"><button class="panel-close" data-close="pauseOverlay" aria-label="Close">×</button><div class="eyebrow" data-i18n="pauseEyebrow">PAUSA TÁTICA</div><h2 class="title compact-title" data-i18n="pauseTitle">Respira<span>!</span></h2><p class="subtitle" data-i18n="pauseSubtitle">O mundo está congelado. Planeje o próximo movimento.</p><div class="btnrow"><button class="game-btn" id="resumeBtn" data-i18n="resumeBtn">CONTINUAR ▶</button><button class="game-btn secondary" id="restartBtn" data-i18n="restartBtn">RECOMEÇAR FASE</button></div><div class="btnrow"><button class="game-btn secondary" id="pauseMenuBtn" data-i18n="menuBtn">MENU PRINCIPAL</button></div></div></div>
+
+    <div class="overlay hidden" id="howOverlay"><div class="panel wide-panel"><button class="panel-close" data-close="howOverlay" aria-label="Close">×</button><div class="eyebrow" data-i18n="howEyebrow">MANUAL DO PLAG</div><h2 class="title compact-title" data-i18n="howTitle">Domine o <span>caos</span></h2><div class="ability-list"><div class="ability"><b data-i18n="pulseName">PULSO · X</b><span data-i18n="pulseDesc">Cria uma plataforma elástica à frente e afasta inimigos próximos.</span></div><div class="ability"><b data-i18n="dashName">DASH · SHIFT</b><span data-i18n="dashDesc">Avanço rápido que destrói inimigos e causa dano no núcleo exposto do chefe.</span></div><div class="ability"><b data-i18n="magnetName">ÍMÃ · C</b><span data-i18n="magnetDesc">Atrai Cacau Bits próximos por alguns segundos.</span></div><div class="ability"><b data-i18n="echoName">ECO · V</b><span data-i18n="echoDesc">Volta para uma posição segura recente e concede proteção breve.</span></div></div><p class="subtitle how-extra" data-i18n="howExtra">PULO: Espaço, W ou ↑. Há um segundo pulo no ar. Você tem 3 vidas para avançar pelas cinco fases. Colete Cacau Bits, vença inimigos e derrote o FirBoss na fase final.</p><div class="btnrow"><button class="game-btn" id="backMenuBtn" data-i18n="gotItBtn">ENTENDI!</button></div></div></div>
+
+    <div class="overlay hidden" id="resultOverlay"><div class="panel"><button class="panel-close" data-close="resultOverlay" aria-label="Close">×</button><div class="eyebrow" id="resultEyebrow">FASE CONCLUÍDA</div><h2 class="title compact-title" id="resultTitle">Boa<span>!</span></h2><p class="subtitle" id="resultText">Portal alcançado!</p><div class="btnrow"><button class="game-btn" id="nextBtn">PRÓXIMA FASE ▶</button><button class="game-btn secondary" id="menuBtn" data-i18n="menuBtn">MENU PRINCIPAL</button></div></div></div>
+
+    <div class="mobile-controls" id="mobileControls">
+      <div class="move-pad"><button class="touch-btn move-touch" data-control="left" aria-label="Mover para esquerda">◀</button><button class="touch-btn move-touch" data-control="right" aria-label="Mover para direita">▶</button></div>
+      <div class="action-grid"><button class="touch-btn jump" data-control="jump"><span data-i18n="mobileJump">PULAR</span>⤒</button><button class="touch-btn dash" data-control="dash"><span data-i18n="mobileDash">DASH</span>➜</button><button class="touch-btn pulse" data-control="pulse"><span data-i18n="mobilePulse">PULSO</span>✦</button><button class="touch-btn magnet" data-control="magnet"><span data-i18n="mobileMagnet">ÍMÃ</span>⌁</button><button class="touch-btn echo" data-control="echo"><span data-i18n="mobileEcho">ECO</span>↶</button></div>
+    </div>
+    <div class="achievement-toast" id="achievementToast"><b data-i18n="achievementUnlocked">CONQUISTA DESBLOQUEADA</b><span id="achievementToastName"></span></div>
+    <div class="rotate-tip" id="rotateTip">↻ GIRE O CELULAR<br>PARA JOGAR<span>PlaG 2D foi feito para partidas na horizontal.</span></div>
+  </main>
+  <footer class="help"><div data-i18n="footerTip">DICA: combine Dash, Pulso, Ímã e Eco para encontrar rotas e superar desafios.</div><div class="right" data-i18n="footerKeys">Mover: A/D ou ←/→ · Pular: Espaço · Dash: Shift · Pulso: X · Ímã: C · Eco: V</div></footer>
 </div>
-
-<!-- HEADER -->
-
-<header class="header">
-
-  <div class="header-inner">
-
-    <a href="#inicio">
-      <img class="brand" src="gaexgames.png" alt="Gaex Games Studio™">
-    </a>
-
-    <nav class="nav">
-      <a href="#jogos">Jogos</a>
-      <a href="#noticias">Notícias</a>
-      <a href="#sobre">Sobre</a>
-      <a href="#gaexid">GaexID</a>
-      <a href="#comunidade">Comunidade</a>
-    </nav>
-
-    <div class="socials">
-
-      <a
-        href="https://instagram.com/gaexgames"
-        target="_blank"
-        rel="noopener"
-        aria-label="Instagram">
-        <i class="fa-brands fa-instagram"></i>
-      </a>
-
-      <a
-        href="https://youtube.com/@gaexgames"
-        target="_blank"
-        rel="noopener"
-        aria-label="YouTube">
-        <i class="fa-brands fa-youtube"></i>
-      </a>
-
-      <a
-        href="https://www.tiktok.com/@gaexgames"
-        target="_blank"
-        rel="noopener"
-        aria-label="TikTok">
-        <i class="fa-brands fa-tiktok"></i>
-      </a>
-
-      <!-- DISCORD OFICIAL DO ZUMBEEFPS -->
-
-      <a
-        class="discord"
-        href="https://discord.gg/nKZMn5szbW"
-        target="_blank"
-        rel="noopener"
-        aria-label="Discord do ZumbeeFPS">
-        <i class="fa-brands fa-discord"></i>
-        ZumbeeFPS
-      </a>
-
-    </div>
-
-    <button
-      class="menu"
-      id="menu"
-      aria-label="Abrir menu"
-      aria-expanded="false">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-
-  </div>
-
-  <nav class="mobile-menu" id="mobileMenu">
-
-    <a href="#jogos">Jogos</a>
-    <a href="#noticias">Notícias</a>
-    <a href="#sobre">Sobre</a>
-    <a href="#gaexid">GaexID</a>
-    <a href="#comunidade">Comunidade</a>
-    <a href="#redes">Redes</a>
-
-  </nav>
-
-</header>
-
-<main>
-
-<!-- HERO -->
-
-<section id="inicio" class="hero container reveal">
-
-  <div>
-
-    <div class="eyebrow">
-      GXS · GAEX GAMES STUDIO™
-    </div>
-
-    <img
-      class="hero-logo"
-      src="gaexgames.png"
-      alt="Gaex Games Studio™">
-
-    <h1>
-      Construindo mundos,<br>
-      <span>fazendo memórias.</span>
-    </h1>
-
-    <p>
-      Um estúdio independente criando jogos, mundos e experiências
-      com identidade própria.
-    </p>
-
-    <div class="actions">
-
-      <a class="btn primary" href="#jogos">
-        <i class="fa-solid fa-gamepad"></i>
-        Nossos jogos
-      </a>
-
-      <a class="btn" href="#noticias">
-        <i class="fa-solid fa-newspaper"></i>
-        Últimas notícias
-      </a>
-
-    </div>
-
-  </div>
-
-  <div class="hero-card">
-    <img src="gaexgames.png" alt="GAEX">
-  </div>
-
-</section>
-
-<!-- QUICK INFO -->
-
-<div class="quick">
-
-  <div class="quick-inner">
-
-    <div class="quick-item">
-      <strong>GAEX™</strong>
-      <span>Marca principal</span>
-    </div>
-
-    <div class="quick-item">
-      <strong>GXS</strong>
-      <span>Gaex Games Studio</span>
-    </div>
-
-    <div class="quick-item">
-      <strong>2022</strong>
-      <span>Início da empresa como Studios Gabriel</span>
-    </div>
-
-    <div class="quick-item">
-      <strong>2026</strong>
-      <span>Era GAEX</span>
-    </div>
-
-  </div>
-
-</div>
-
-<!-- JOGOS -->
-
-<section id="jogos" class="section container reveal">
-
-  <div class="head">
-
-    <div>
-      <div class="num">01 · NOSSOS JOGOS</div>
-      <h2 class="title">Mundos que você joga.</h2>
-    </div>
-
-    <p class="desc">
-      Conheça o jogo que abriu a nova era da GAEX e acompanhe
-      os próximos projetos.
-    </p>
-
-  </div>
-
-  <article class="game">
-
-    <div class="game-art">
-      <img
-        src="zumbeefps.png"
-        alt="Logo do ZumbeeFPS">
-    </div>
-
-    <div class="game-copy">
-
-      <span class="pill">
-        FPS · ZUMBIS · ARCADE
-      </span>
-
-      <h3>ZumbeeFPS</h3>
-
-      <p>
-        Mate zumbis, compre armas e entre no caos.
-        Um FPS arcade offline onde
-        <strong>cada arma, novo jogo.</strong>
-      </p>
-
-      <div class="facts">
-        <span class="fact">OFFLINE</span>
-        <span class="fact">SINGLEPLAYER</span>
-        <span class="fact">FREE</span>
-        <span class="fact">NO ADS</span>
-        <span class="fact">WINDOWS</span>
-        <span class="fact">ANDROID</span>
-      </div>
-
-      <div>
-
-        <a
-          class="btn primary"
-          href="https://gaexgames.itch.io/zumbeefps"
-          target="_blank"
-          rel="noopener">
-
-          Jogar no itch.io
-
-          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-        </a>
-
-      </div>
-
-    </div>
-
-  </article>
-
-</section>
-
-<!-- NOTÍCIAS -->
-
-<section id="noticias" class="section container reveal">
-
-  <div class="head">
-
-    <div>
-      <div class="num">02 · NOTÍCIAS</div>
-      <h2 class="title">Acontecendo agora.</h2>
-    </div>
-
-    <p class="desc">
-      Novidades da empresa, desenvolvimento e próximos
-      capítulos do universo GAEX.
-    </p>
-
-  </div>
-
-  <div class="news">
-
-    <article class="news-card news-main">
-
-      <div>
-
-        <div class="date">
-          12 AGO 2026 · GAEX
-        </div>
-
-        <h3>Uma nova era começou.</h3>
-
-        <p>
-          Studios Gabriel passa oficialmente a ser
-          Gaex Games Studio™. Nova marca, mesma essência.
-        </p>
-
-      </div>
-
-      <a href="#sobre">
-        Conhecer a GAEX →
-      </a>
-
-    </article>
-
-    <article class="news-card">
-
-      <div>
-
-        <div class="date">
-          12 AGO 2026 · ECOSSISTEMA
-        </div>
-
-        <h3>GaexID</h3>
-
-        <p>
-          O novo sistema de identidade da GAEX entra
-          em desenvolvimento.
-        </p>
-
-      </div>
-
-      <a href="#gaexid">
-        Ver GaexID →
-      </a>
-
-    </article>
-
-    <article class="news-card">
-
-      <div>
-
-        <div class="date">
-          12 AGO 2026 · ZUMBEEFPS
-        </div>
-
-        <h3>O caos continua.</h3>
-
-        <p>
-          A atualização 1.0.3 do ZumbeeFPS está prevista
-          para <strong>15 de outubro de 2026</strong>,
-          trazendo novos conteúdos, sistemas e melhorias.
-        </p>
-
-      </div>
-
-      <a
-        href="https://gaexgames.itch.io/zumbeefps"
-        target="_blank"
-        rel="noopener">
-        Ver jogo →
-      </a>
-
-    </article>
-
-  </div>
-
-</section>
-
-<!-- SOBRE -->
-
-<section id="sobre" class="section container reveal">
-
-  <div class="head">
-
-    <div>
-      <div class="num">03 · SOBRE</div>
-      <h2 class="title">
-        A identidade por trás dos mundos.
-      </h2>
-    </div>
-
-  </div>
-
-  <div class="about">
-
-    <article class="about-card">
-
-      <h3>Gaex Games Studio™</h3>
-
-      <p>
-        Estúdio independente focado em jogos,
-        experiências e criações próprias.
-      </p>
-
-    </article>
-
-    <article class="about-card meaning">
-
-      <h3>GAEX</h3>
-
-      <p>
-        <strong>G</strong> representa Gabriel.
-        <br><br>
-        <strong>AEX</strong> representa tecnologia,
-        criações e mundos.
-      </p>
-
-    </article>
-
-    <article class="about-card">
-
-      <h3>Mesma essência</h3>
-
-      <p>
-        A identidade mudou em 2026, mas a história,
-        o estilo e a vontade de criar continuam.
-      </p>
-
-    </article>
-
-  </div>
-
-</section>
-
-<!-- GAEXID -->
-
-<section id="gaexid" class="section container reveal">
-
-  <div class="head">
-
-    <div>
-      <div class="num">04 · GAEXID</div>
-      <h2 class="title">
-        Uma identidade para o universo GAEX.
-      </h2>
-    </div>
-
-  </div>
-
-  <div class="id-box">
-
-    <div>
-
-      <h3>GaexID</h3>
-
-      <p>
-        Um sistema pensado para conectar contas,
-        progresso, serviços e experiências dentro
-        do ecossistema GAEX.
-      </p>
-
-    </div>
-
-    <span class="status">
-      EM DESENVOLVIMENTO
-    </span>
-
-  </div>
-
-</section>
-
-<!-- COMUNIDADE -->
-
-<section id="comunidade" class="section container reveal">
-
-  <div class="head">
-
-    <div>
-      <div class="num">05 · COMUNIDADE</div>
-      <h2 class="title">
-        Jogue. Compartilhe. Faça parte.
-      </h2>
-    </div>
-
-  </div>
-
-  <div class="community">
-
-    <article class="discord-card">
-
-      <i class="fa-brands fa-discord"></i>
-
-      <h3>
-        Discord do ZumbeeFPS
-      </h3>
-
-      <p>
-        A comunidade oficial do ZumbeeFPS.
-        Receba novidades, acompanhe o desenvolvimento,
-        compartilhe conteúdos e participe das discussões
-        sobre o jogo.
-      </p>
-
-      <a
-        class="btn"
-        href="https://discord.gg/nKZMn5szbW"
-        target="_blank"
-        rel="noopener">
-
-        <i class="fa-brands fa-discord"></i>
-        Entrar no Discord do ZumbeeFPS
-
-      </a>
-
-    </article>
-
-    <article class="community-card">
-
-      <h3>
-        Construindo mundos,
-        fazendo memórias.
-      </h3>
-
-      <p>
-        A comunidade também faz parte da história da GAEX.
-        Cada projeto cresce com as pessoas que acompanham,
-        jogam e compartilham.
-      </p>
-
-    </article>
-
-  </div>
-
-</section>
-
-<!-- REDES -->
-
-<section id="redes" class="section container reveal">
-
-  <div class="head">
-
-    <div>
-      <div class="num">06 · REDES</div>
-      <h2 class="title">Fique perto.</h2>
-    </div>
-
-  </div>
-
-  <div class="social-grid">
-
-    <a
-      class="social-card"
-      href="https://instagram.com/gaexgames"
-      target="_blank"
-      rel="noopener">
-
-      <i class="fa-brands fa-instagram"></i>
-
-      <strong>Instagram</strong>
-
-      <span>@gaexgames</span>
-
-    </a>
-
-    <a
-      class="social-card"
-      href="https://youtube.com/@gaexgames"
-      target="_blank"
-      rel="noopener">
-
-      <i class="fa-brands fa-youtube"></i>
-
-      <strong>YouTube</strong>
-
-      <span>@gaexgames</span>
-
-    </a>
-
-    <a
-      class="social-card"
-      href="https://www.tiktok.com/@gaexgames"
-      target="_blank"
-      rel="noopener">
-
-      <i class="fa-brands fa-tiktok"></i>
-
-      <strong>TikTok</strong>
-
-      <span>@gaexgames</span>
-
-    </a>
-
-    <a
-      class="social-card"
-      href="https://discord.gg/nKZMn5szbW"
-      target="_blank"
-      rel="noopener">
-
-      <i class="fa-brands fa-discord"></i>
-
-      <strong>Discord</strong>
-
-      <span>Comunidade oficial do ZumbeeFPS</span>
-
-    </a>
-
-  </div>
-
-</section>
-
-</main>
-
-<!-- FOOTER -->
-
-<footer>
-
-  <div class="footer">
-
-    <div class="footer-grid">
-
-      <div>
-
-        <img
-          class="footer-logo"
-          src="gaexgames.png"
-          alt="Gaex Games Studio™">
-
-        <p class="footer-copy">
-
-          Gaex Games Studio™ · GXS
-          <br>
-          Construindo mundos, fazendo memórias.
-          <br><br>
-          © 2022–2026 Gaex Games Studio™
-
-        </p>
-
-      </div>
-
-      <div>
-
-        <h4>Navegação</h4>
-
-        <div class="footer-links">
-
-          <a href="#jogos">Jogos</a>
-          <a href="#noticias">Notícias</a>
-          <a href="#sobre">Sobre</a>
-          <a href="#gaexid">GaexID</a>
-          <a href="#comunidade">Comunidade</a>
-
-        </div>
-
-      </div>
-
-      <div>
-
-        <h4>Legal</h4>
-
-        <div class="footer-links">
-
-          <a href="politica-de-privacidade.html">
-            Política de Privacidade
-          </a>
-
-          <a href="termos-de-servico.html">
-            Termos de Serviço
-          </a>
-
-          <a href="direitos-autorais.html">
-            Direitos Autorais
-          </a>
-
-        </div>
-
-      </div>
-
-      <div>
-
-        <h4>Social</h4>
-
-        <div class="footer-socials">
-
-          <a
-            href="https://instagram.com/gaexgames"
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-
-          <a
-            href="https://youtube.com/@gaexgames"
-            target="_blank"
-            rel="noopener"
-            aria-label="YouTube">
-            <i class="fa-brands fa-youtube"></i>
-          </a>
-
-          <a
-            href="https://www.tiktok.com/@gaexgames"
-            target="_blank"
-            rel="noopener"
-            aria-label="TikTok">
-            <i class="fa-brands fa-tiktok"></i>
-          </a>
-
-          <a
-            href="https://discord.gg/nKZMn5szbW"
-            target="_blank"
-            rel="noopener"
-            aria-label="Discord do ZumbeeFPS">
-            <i class="fa-brands fa-discord"></i>
-          </a>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="copyright">
-
-      <span>GAEX™ · GXS</span>
-
-      <span>
-        Construindo mundos, fazendo memórias.
-      </span>
-
-    </div>
-
-  </div>
-
-</footer>
-
 <script>
+(()=>{
+'use strict';
+const canvas=document.getElementById('game');
+const ctx=canvas.getContext('2d',{alpha:false});
+const $=id=>document.getElementById(id);
+const W=960,H=540,GRAVITY=1650;
+const overlays=['welcomeOverlay','menuOverlay','levelSelectOverlay','shopOverlay','achievementsOverlay','settingsOverlay','pauseOverlay','howOverlay','resultOverlay','policyOverlay'];
+const ui={hud:$('hud'),mobile:$('mobileControls'),score:$('score'),bits:$('bits'),lives:$('lives'),charges:$('charges'),level:$('levelName'),record:$('recordLine'),boss:$('bossHud'),bossBar:$('bossHealthBar'),bossState:$('bossState')};
+const themes=[
+ {name:'Bosque de Blocos',top:'#142d3b',mid:'#284a4c',bottom:'#52704e',hill:'#31564e',platform:'#83a86d',accent:'#d6f36a',glow:'#6de1dc'},
+ {name:'Fábrica Magnética',top:'#1a263c',mid:'#354354',bottom:'#6a5949',hill:'#34485a',platform:'#bf9862',accent:'#ffbd70',glow:'#6de1dc'},
+ {name:'Cânion Pulsante',top:'#34243b',mid:'#67404a',bottom:'#9a684e',hill:'#754955',platform:'#d09a69',accent:'#ffab62',glow:'#f87da2'},
+ {name:'Torre do Eco',top:'#172c47',mid:'#354f69',bottom:'#52677a',hill:'#2d4965',platform:'#8ba7b8',accent:'#d0b5ff',glow:'#8ddcff'},
+ {name:'Núcleo Caótico',top:'#251b38',mid:'#55334e',bottom:'#93534e',hill:'#653b5a',platform:'#bd7e78',accent:'#ffe078',glow:'#ff8dac'}
+];
+// Each stage is a handcrafted route. Values are in the 960 x 540 game world.
+const levelData=[
+ {width:2720,spawn:{x:55,y:428},platforms:[[0,470,560,70],[675,470,450,70],[1230,470,520,70],[1850,470,870,70],[300,382,125,16],[775,365,145,16],[1000,310,135,16],[1410,382,145,16],[1635,330,145,16],[2040,375,155,16],[2325,315,135,16]],spikes:[[470,448,65,22],[865,448,65,22],[1310,448,75,22],[1990,448,85,22]],bits:[[245,425],[370,340],[825,322],[1065,267],[1510,338],[1710,285],[2160,330],[2390,270]],enemies:[['walker',315,432,210,520,76],['hopper',820,430,700,1090,67],['flyer',1510,285,1390,1730,78],['walker',2240,432,2070,2580,88]],saws:[],moving:[],goal:{x:2615,y:396},springs:[[405,452,42,18],[1710,452,42,18]],stageType:"forest"},
+ {width:2940,spawn:{x:55,y:428},platforms:[[0,470,430,70],[540,470,520,70],[1175,470,460,70],[1745,470,500,70],[2340,470,600,70],[300,365,130,16],[665,360,125,16],[900,300,145,16],[1280,365,140,16],[1510,300,145,16],[1880,360,130,16],[2110,295,140,16],[2500,370,150,16],[2700,310,130,16]],spikes:[[350,448,55,22],[755,448,75,22],[1365,448,80,22],[1910,448,90,22],[2480,448,70,22]],bits:[[330,325],[715,320],[970,255],[1350,320],[1570,255],[1940,315],[2180,250],[2580,325],[2750,265]],enemies:[['walker',230,432,100,400,95],['flyer',770,265,650,1020,102],['hopper',1430,430,1220,1600,82],['walker',1980,432,1780,2190,105],['flyer',2600,260,2460,2820,112]],saws:[[1080,365,55,1.4],[2260,365,65,1.7]],moving:[[1040,385,110,15,'x',980,1150,1.2],[1645,345,110,15,'y',320,405,1.5]],goal:{x:2830,y:396},belts:[[540,452,180,18,1],[1745,452,190,18,-1],[2500,452,170,18,1]],stageType:"factory"},
+ {width:3100,spawn:{x:55,y:428},platforms:[[0,470,390,70],[490,470,390,70],[990,470,410,70],[1510,470,430,70],[2040,470,420,70],[2550,470,550,70],[260,365,130,16],[570,330,135,16],[800,270,145,16],[1110,350,135,16],[1320,285,140,16],[1650,360,140,16],[1850,295,150,16],[2180,355,140,16],[2390,290,145,16],[2740,355,130,16]],spikes:[[310,448,65,22],[645,448,72,22],[1120,448,90,22],[1680,448,100,22],[2210,448,95,22],[2700,448,80,22]],bits:[[300,325],[625,290],[855,230],[1175,310],[1370,245],[1710,320],[1915,255],[2250,315],[2440,250],[2800,315]],enemies:[['hopper',200,430,80,360,95],['flyer',690,230,520,850,120],['walker',1230,432,1040,1360,120],['hopper',1780,430,1550,1920,105],['flyer',2300,230,2130,2480,132],['walker',2800,432,2600,3020,110]],saws:[[930,375,70,1.6],[1970,350,65,1.9],[2510,365,52,2]],moving:[[880,390,105,15,'x',855,1010,1.6],[1440,350,100,15,'y',300,405,1.8],[2460,340,110,15,'x',2420,2585,1.4]],goal:{x:2990,y:396},bombs:[[710,430],[1515,430],[2420,430]],stageType:"canyon"},
+ {width:3280,spawn:{x:50,y:425},platforms:[[0,470,360,70],[465,470,375,70],[955,470,350,70],[1420,470,370,70],[1900,470,360,70],[2370,470,360,70],[2835,470,445,70],[210,375,125,16],[480,335,130,16],[700,285,130,16],[1000,365,125,16],[1190,300,130,16],[1480,355,130,16],[1690,285,135,16],[1950,355,130,16],[2170,290,130,16],[2440,355,130,16],[2650,290,135,16],[2920,355,130,16],[3100,295,120,16]],spikes:[[280,448,60,22],[590,448,75,22],[1070,448,80,22],[1540,448,90,22],[2020,448,80,22],[2500,448,90,22],[2940,448,70,22]],bits:[[250,335],[525,295],[745,245],[1050,325],[1230,260],[1525,315],[1740,245],[1995,315],[2215,250],[2480,315],[2690,250],[2960,315],[3150,255]],enemies:[['flyer',575,220,475,790,130],['hopper',760,430,640,830,115],['walker',1130,432,990,1280,120],['flyer',1600,220,1480,1780,145],['hopper',2100,430,1940,2250,125],['walker',2580,432,2410,2730,140],['flyer',3030,220,2890,3220,150]],saws:[[870,370,68,2],[1830,350,58,2.1],[2310,370,60,2.3],[2780,355,55,2.2]],moving:[[830,380,105,15,'y',325,415,1.8],[1315,355,105,15,'x',1295,1450,1.7],[2280,340,110,15,'y',290,410,2]],goal:{x:3185,y:396},fragile:[[880,290,112,15],[1690,270,112,15],[2470,310,115,15]],windZones:[[1090,160,210,260,-1],[2220,140,245,270,-1]],stageType:"tower"},
+ {width:3650,spawn:{x:50,y:425},platforms:[[0,470,350,70],[455,470,390,70],[950,470,390,70],[1445,470,390,70],[1940,470,390,70],[2435,470,390,70],[2930,470,720,70],[200,375,125,16],[480,330,130,16],[710,275,140,16],[1000,355,130,16],[1225,290,135,16],[1500,355,135,16],[1730,285,135,16],[1995,350,135,16],[2220,280,145,16],[2480,350,135,16],[2710,285,140,16],[3000,350,135,16],[3240,285,140,16],[3440,350,125,16]],spikes:[[270,448,65,22],[590,448,75,22],[1080,448,80,22],[1570,448,80,22],[2060,448,80,22],[2550,448,80,22],[3070,448,95,22]],bits:[[245,335],[525,290],[760,235],[1045,315],[1270,250],[1540,315],[1770,245],[2035,310],[2260,240],[2525,310],[2750,245],[3045,310],[3290,245],[3480,310]],enemies:[['walker',150,432,65,320,135],['flyer',560,215,465,790,155],['hopper',800,430,650,835,130],['flyer',1120,220,990,1320,170],['walker',1640,432,1480,1810,145],['hopper',2160,430,1980,2310,140],['flyer',2650,220,2490,2820,180],['walker',3140,432,2970,3360,155],['flyer',3440,230,3300,3600,190]],saws:[[870,360,70,2.1],[1370,355,65,2.2],[1870,360,75,2.3],[2360,350,65,2.4],[2850,360,70,2.5],[3400,350,60,2.6]],moving:[[850,380,100,15,'x',825,970,2],[1390,345,100,15,'y',285,420,2],[1880,345,105,15,'x',1855,2010,2.1],[2370,345,105,15,'y',285,415,2.2],[2860,340,105,15,'x',2825,2980,2.3]],goal:{x:3550,y:396},bombs:[[860,430],[1880,430],[2850,430],[3210,430]],boss:{x:3370,y:375,min:3260,max:3430,w:132,h:112,hp:8},stageType:"core"}
+];
+let state='menu',levelIndex=0,level=null,player=null,camera=0,score=0,levelScore=0,lives=3,bitCount=0,time=0,shake=0,lastFrame=0;
+let particles=[],pulsePads=[],pulseWaves=[],controls={left:false,right:false},queued={jump:false,dash:false,pulse:false,magnet:false,echo:false},history=[],historyClock=0;
+const SAVE_KEY='plag2d_save_v1';
+const OLD_SAVE_KEY='plag2d_save_v03';
+function readSave(){
+ let raw={};try{raw=JSON.parse(localStorage.getItem(SAVE_KEY)||localStorage.getItem(OLD_SAVE_KEY)||'{}')||{}}catch(_){}
+ let oldRecord=0;try{oldRecord=Number(localStorage.getItem('plag2d_record')||0)||0}catch(_){}
+ const ids=['lime','cocoa','azure','violet','sunset','gold'];
+ const stats=raw.stats&&typeof raw.stats==='object'?raw.stats:{};
+ return {record:Math.max(0,Number(raw.record)||oldRecord),wallet:Math.max(0,Number(raw.wallet)||0),unlockedLevel:clamp(Math.floor(Number(raw.unlockedLevel)||1),1,5),completed:clamp(Math.floor(Number(raw.completed)||0),0,5),ownedSkins:Array.isArray(raw.ownedSkins)?raw.ownedSkins.filter(x=>ids.includes(x)):['lime'],skin:ids.includes(raw.skin)?raw.skin:'lime',lang:['pt','es','en'].includes(raw.lang)?raw.lang:'pt',music:raw.music!==false,sound:raw.sound!==false,shake:raw.shake!==false,username:typeof raw.username==='string'?raw.username.slice(0,16):'',acceptedPolicies:raw.acceptedPolicies===true,achievements:Array.isArray(raw.achievements)?raw.achievements.filter(x=>['first_clear','world_clear','boss_breaker','bit_hoarder','enemy_sweeper','chain_reaction','fashionista','survivor'].includes(x)):[],stats:{totalBits:Math.max(0,Number(stats.totalBits)||0),totalKills:Math.max(0,Number(stats.totalKills)||0),bombChains:Math.max(0,Number(stats.bombChains)||0),deaths:Math.max(0,Number(stats.deaths)||0),pulses:Math.max(0,Number(stats.pulses)||0)}};
+}
+let save=readSave();if(!save.ownedSkins.includes('lime'))save.ownedSkins.unshift('lime');if(!save.ownedSkins.includes(save.skin))save.skin='lime';
+let record=save.record,unlockedLevel=Math.max(1,Math.min(5,save.completed+1)),lang=save.lang;
+save.unlockedLevel=unlockedLevel;
+function persistSave(){unlockedLevel=Math.max(1,Math.min(5,save.completed+1));save.record=record;save.unlockedLevel=unlockedLevel;save.lang=lang;try{localStorage.setItem(SAVE_KEY,JSON.stringify(save));localStorage.setItem('plag2d_record',String(record))}catch(_){}}
 
-window.addEventListener("load",()=>{
+let view={cssW:960,cssH:540,dpr:1,scale:1,ox:0,oy:0};
+const I18N={
+ pt:{brandTagline:'PLATAFORMA FORA DA CAIXA',menuEyebrow:'GAEX PLAY LAB APRESENTA',menuSubtitle:'Cinco mundos, habilidades malucas e um chefão esperando no Núcleo Caótico. Bora?',playBtn:'JOGAR ▶',shopBtn:'LOJA DE SKINS',settingsBtn:'CONFIGURAÇÕES',howBtn:'COMO JOGAR',recordLine:'Recorde: {score} pts',walletLine:'Carteira: {points} pts',levelEyebrow:'SELEÇÃO DE FASES',levelTitle:'Escolha seu caminho',levelSubtitle:'As fases são liberadas conforme você avança. Seu progresso fica salvo neste aparelho.',backMenu:'VOLTAR AO MENU',stageUnlocked:'LIBERADA',stageLocked:'BLOQUEADA',stageDone:'CONCLUÍDA',stagePlay:'JOGAR FASE',shopEyebrow:'PERSONALIZE SEU PLA',shopTitle:'Loja de skins',shopWallet:'Pontos disponíveis: {points}',buy:'COMPRAR',owned:'ADQUIRIDA',equip:'EQUIPAR',equipped:'EQUIPADA',free:'GRÁTIS',settingsEyebrow:'AJUSTE SUA EXPERIÊNCIA',settingsTitle:'Configurações',languageLabel:'Idioma',musicLabel:'Música',soundLabel:'Efeitos sonoros',shakeLabel:'Tremor de câmera',on:'LIGADO',off:'DESLIGADO',onPlural:'LIGADOS',offPlural:'DESLIGADOS',settingsNote:'As preferências e o progresso são salvos localmente neste navegador.',pauseEyebrow:'PAUSA TÁTICA',pauseTitle:'Respira!',pauseSubtitle:'O mundo está congelado. Planeje o próximo movimento.',resumeBtn:'CONTINUAR ▶',restartBtn:'RECOMEÇAR FASE',menuBtn:'MENU PRINCIPAL',howEyebrow:'MANUAL DO PLAG',howTitle:'Domine o caos',pulseName:'PULSO · X',pulseDesc:'Cria uma plataforma elástica à frente e afasta inimigos próximos.',dashName:'DASH · SHIFT',dashDesc:'Avanço rápido que destrói inimigos e causa dano no núcleo exposto do chefe.',magnetName:'ÍMÃ · C',magnetDesc:'Atrai Cacau Bits próximos por alguns segundos.',echoName:'ECO · V',echoDesc:'Volta para uma posição segura recente e concede proteção breve.',howExtra:'PULO: Espaço, W ou ↑. Há um segundo pulo no ar. Você tem 3 vidas para avançar pelas cinco fases. Colete Cacau Bits, vença inimigos e derrote o FirBoss na fase final.',gotItBtn:'ENTENDI!',scoreLabel:'PONTOS',bitsLabel:'CACAU BITS',livesLabel:'VIDAS',pulseLabel:'PULSOS',stageLabel:'FASE',bossArmored:'NÚCLEO BLINDADO',bossOpen:'NÚCLEO EXPOSTO! ATAQUE!',bossDead:'FIRBOSS DERROTADO',stageCanvas:'FASE {n}/5 · {name}',dash:'DASH',magnet:'ÍMÃ',echo:'ECO',ready:'OK',rotate:'↻ GIRE O CELULAR',rotateHint:'PlaG 2D fica melhor na horizontal.',mobileJump:'PULAR',mobileDash:'DASH',mobilePulse:'PULSO',mobileMagnet:'ÍMÃ',mobileEcho:'ECO',footerTip:'DICA: combine Dash, Pulso, Ímã e Eco para encontrar rotas e superar desafios.',footerKeys:'Mover: A/D ou ←/→ · Pular: Espaço · Dash: Shift · Pulso: X · Ímã: C · Eco: V',stageNames:['Bosque de Blocos','Fábrica Magnética','Cânion Pulsante','Torre do Eco','Núcleo Caótico'],skinNames:{lime:'Clássica',cocoa:'Cacau',azure:'Maré Azul',violet:'Nebulosa',sunset:'Pôr do Sol',gold:'Dourada'},skinDesc:{lime:'O visual original do Pla.',cocoa:'Uma combinação quente de cacau.',azure:'Brilho gelado e elétrico.',violet:'Energia misteriosa.',sunset:'Cores de fim de tarde.',gold:'Um brilho para quem zerou o jogo.'},phaseDone:'FASE {n} CONCLUÍDA',allDone:'VOCÊ ZEROU O PLAG 2D!',gameOver:'FIM DE JOGO',resultFinal:'Você derrotou o FirBoss e concluiu os cinco mundos!',resultStage:'Portal alcançado! +{bonus} pontos de bônus por Cacau Bits.',resultStats:'Pontuação: {score}. Vidas restantes: {lives}.',nextStage:'PRÓXIMA FASE ▶',playAgain:'JOGAR DE NOVO',tryAgain:'TENTAR DE NOVO',lastLife:'As três vidas acabaram. Pontuação: {score}. Você chegou à fase {stage}/5.',bossNeed:'Derrote o FirBoss antes de entrar no portal!',shopNeed:'Você ainda não tem pontos suficientes.',bossName:'THE FIRBOSS',walletShort:'Pontos: {points}',newRecord:'NOVO RECORDE!',levelNamesShort:['BOSQUE','FÁBRICA','CÂNION','TORRE','NÚCLEO']},
+ es:{brandTagline:'PLATAFORMAS FUERA DE LA CAJA',menuEyebrow:'GAEX PLAY LAB PRESENTA',menuSubtitle:'Cinco mundos, habilidades increíbles y un jefe esperando en el Núcleo Caótico. ¿Vamos?',playBtn:'JUGAR ▶',shopBtn:'TIENDA DE SKINS',settingsBtn:'AJUSTES',howBtn:'CÓMO JUGAR',recordLine:'Récord: {score} pts',walletLine:'Cartera: {points} pts',levelEyebrow:'SELECCIÓN DE NIVELES',levelTitle:'Elige tu camino',levelSubtitle:'Los niveles se desbloquean al avanzar. Tu progreso se guarda en este dispositivo.',backMenu:'VOLVER AL MENÚ',stageUnlocked:'DESBLOQUEADO',stageLocked:'BLOQUEADO',stageDone:'COMPLETADO',stagePlay:'JUGAR NIVEL',shopEyebrow:'PERSONALIZA TU PLA',shopTitle:'Tienda de skins',shopWallet:'Puntos disponibles: {points}',buy:'COMPRAR',owned:'ADQUIRIDA',equip:'EQUIPAR',equipped:'EQUIPADA',free:'GRATIS',settingsEyebrow:'AJUSTA TU EXPERIENCIA',settingsTitle:'Configuración',languageLabel:'Idioma',musicLabel:'Música',soundLabel:'Efectos de sonido',shakeLabel:'Vibración de cámara',on:'ACTIVADO',off:'DESACTIVADO',onPlural:'ACTIVADOS',offPlural:'DESACTIVADOS',settingsNote:'Las preferencias y el progreso se guardan localmente en este navegador.',pauseEyebrow:'PAUSA TÁCTICA',pauseTitle:'¡Respira!',pauseSubtitle:'El mundo está congelado. Planea tu próximo movimiento.',resumeBtn:'CONTINUAR ▶',restartBtn:'REINICIAR NIVEL',menuBtn:'MENÚ PRINCIPAL',howEyebrow:'MANUAL DE PLAG',howTitle:'Domina el caos',pulseName:'PULSO · X',pulseDesc:'Crea una plataforma elástica delante y aleja a los enemigos cercanos.',dashName:'DASH · SHIFT',dashDesc:'Avance rápido que elimina enemigos y daña el núcleo expuesto del jefe.',magnetName:'IMÁN · C',magnetDesc:'Atrae Cacau Bits cercanos durante unos segundos.',echoName:'ECO · V',echoDesc:'Regresa a una posición segura reciente y obtiene protección breve.',howExtra:'SALTO: Espacio, W o ↑. Tienes un segundo salto en el aire. Dispones de 3 vidas para avanzar por los cinco niveles. Recoge Cacau Bits, vence enemigos y derrota a FirBoss en la fase final.',gotItBtn:'¡ENTENDIDO!',scoreLabel:'PUNTOS',bitsLabel:'CACAU BITS',livesLabel:'VIDAS',pulseLabel:'PULSOS',stageLabel:'NIVEL',bossArmored:'NÚCLEO BLINDADO',bossOpen:'¡NÚCLEO EXPUESTO! ¡ATACA!',bossDead:'FIRBOSS DERROTADO',stageCanvas:'NIVEL {n}/5 · {name}',dash:'DASH',magnet:'IMÁN',echo:'ECO',ready:'OK',rotate:'↻ GIRA EL MÓVIL',rotateHint:'PlaG 2D se disfruta mejor en horizontal.',mobileJump:'SALTAR',mobileDash:'DASH',mobilePulse:'PULSO',mobileMagnet:'IMÁN',mobileEcho:'ECO',footerTip:'CONSEJO: combina Dash, Pulso, Imán y Eco para descubrir rutas y superar desafíos.',footerKeys:'Mover: A/D o ←/→ · Saltar: Espacio · Dash: Shift · Pulso: X · Imán: C · Eco: V',stageNames:['Bosque de Bloques','Fábrica Magnética','Cañón Pulsante','Torre del Eco','Núcleo Caótico'],skinNames:{lime:'Clásica',cocoa:'Cacao',azure:'Marea Azul',violet:'Nebulosa',sunset:'Atardecer',gold:'Dorada'},skinDesc:{lime:'El aspecto original de Pla.',cocoa:'Una mezcla cálida de cacao.',azure:'Brillo frío y eléctrico.',violet:'Energía misteriosa.',sunset:'Colores del atardecer.',gold:'Un brillo para quienes completaron el juego.'},phaseDone:'NIVEL {n} COMPLETADO',allDone:'¡COMPLETASTE PLAG 2D!',gameOver:'FIN DEL JUEGO',resultFinal:'¡Derrotaste a FirBoss y completaste los cinco mundos!',resultStage:'¡Portal alcanzado! +{bonus} puntos extra por Cacau Bits.',resultStats:'Puntuación: {score}. Vidas restantes: {lives}.',nextStage:'SIGUIENTE NIVEL ▶',playAgain:'JUGAR DE NUEVO',tryAgain:'INTENTAR OTRA VEZ',lastLife:'Se acabaron las tres vidas. Puntuación: {score}. Llegaste al nivel {stage}/5.',bossNeed:'¡Derrota a FirBoss antes de entrar al portal!',shopNeed:'Todavía no tienes puntos suficientes.',bossName:'THE FIRBOSS',walletShort:'Puntos: {points}',newRecord:'¡NUEVO RÉCORD!',levelNamesShort:['BOSQUE','FÁBRICA','CAÑÓN','TORRE','NÚCLEO']},
+ en:{brandTagline:'PLATFORMS OUTSIDE THE BOX',menuEyebrow:'GAEX PLAY LAB PRESENTS',menuSubtitle:'Five worlds, wild abilities, and a boss waiting in the Chaotic Core. Ready?',playBtn:'PLAY ▶',shopBtn:'SKIN SHOP',settingsBtn:'SETTINGS',howBtn:'HOW TO PLAY',recordLine:'Best: {score} pts',walletLine:'Wallet: {points} pts',levelEyebrow:'LEVEL SELECT',levelTitle:'Choose your route',levelSubtitle:'Levels unlock as you progress. Your progress is saved on this device.',backMenu:'BACK TO MENU',stageUnlocked:'UNLOCKED',stageLocked:'LOCKED',stageDone:'COMPLETED',stagePlay:'PLAY LEVEL',shopEyebrow:'MAKE YOUR PLA YOURS',shopTitle:'Skin shop',shopWallet:'Available points: {points}',buy:'BUY',owned:'OWNED',equip:'EQUIP',equipped:'EQUIPPED',free:'FREE',settingsEyebrow:'TUNE YOUR EXPERIENCE',settingsTitle:'Settings',languageLabel:'Language',musicLabel:'Music',soundLabel:'Sound effects',shakeLabel:'Camera shake',on:'ON',off:'OFF',onPlural:'ON',offPlural:'OFF',settingsNote:'Your preferences and progress are saved locally in this browser.',pauseEyebrow:'TACTICAL PAUSE',pauseTitle:'Take a breath!',pauseSubtitle:'The world is frozen. Plan your next move.',resumeBtn:'RESUME ▶',restartBtn:'RESTART LEVEL',menuBtn:'MAIN MENU',howEyebrow:'PLA G MANUAL',howTitle:'Master the chaos',pulseName:'PULSE · X',pulseDesc:'Creates a spring platform ahead and pushes nearby enemies away.',dashName:'DASH · SHIFT',dashDesc:'A quick burst that defeats enemies and damages the boss while its core is exposed.',magnetName:'MAGNET · C',magnetDesc:'Pulls nearby Cacau Bits toward you for a few seconds.',echoName:'ECHO · V',echoDesc:'Returns to a recent safe position and grants brief protection.',howExtra:'JUMP: Space, W or ↑. You can double-jump in the air. You have 3 lives to clear all five levels. Collect Cacau Bits, defeat enemies, and take down FirBoss in the final stage.',gotItBtn:'GOT IT!',scoreLabel:'SCORE',bitsLabel:'CACAU BITS',livesLabel:'LIVES',pulseLabel:'PULSES',stageLabel:'LEVEL',bossArmored:'CORE ARMORED',bossOpen:'CORE EXPOSED! ATTACK!',bossDead:'FIRBOSS DEFEATED',stageCanvas:'LEVEL {n}/5 · {name}',dash:'DASH',magnet:'MAGNET',echo:'ECHO',ready:'READY',rotate:'↻ ROTATE YOUR PHONE',rotateHint:'PlaG 2D plays best in landscape.',mobileJump:'JUMP',mobileDash:'DASH',mobilePulse:'PULSE',mobileMagnet:'MAGNET',mobileEcho:'ECHO',footerTip:'TIP: combine Dash, Pulse, Magnet, and Echo to find routes and overcome challenges.',footerKeys:'Move: A/D or ←/→ · Jump: Space · Dash: Shift · Pulse: X · Magnet: C · Echo: V',stageNames:['Block Forest','Magnetic Factory','Pulsing Canyon','Echo Tower','Chaotic Core'],skinNames:{lime:'Classic',cocoa:'Cocoa',azure:'Blue Tide',violet:'Nebula',sunset:'Sunset',gold:'Golden'},skinDesc:{lime:'Pla’s original look.',cocoa:'A warm cocoa combination.',azure:'Cool electric glow.',violet:'Mysterious energy.',sunset:'Colors of the evening sky.',gold:'A shine for those who beat the game.'},phaseDone:'LEVEL {n} COMPLETE',allDone:'YOU BEAT PLAG 2D!',gameOver:'GAME OVER',resultFinal:'You defeated FirBoss and cleared all five worlds!',resultStage:'Portal reached! +{bonus} bonus points from Cacau Bits.',resultStats:'Score: {score}. Lives remaining: {lives}.',nextStage:'NEXT LEVEL ▶',playAgain:'PLAY AGAIN',tryAgain:'TRY AGAIN',lastLife:'All three lives are gone. Score: {score}. You reached level {stage}/5.',bossNeed:'Defeat FirBoss before entering the portal!',shopNeed:'You do not have enough points yet.',bossName:'THE FIRBOSS',walletShort:'Points: {points}',newRecord:'NEW HIGH SCORE!',levelNamesShort:['FOREST','FACTORY','CANYON','TOWER','CORE']}
+};
 
-  document.documentElement.classList.add("loaded");
+const EXTRA_I18N={
+ pt:{slogan:'UM QUADRADO, UM CAOS 2D!',welcomeEyebrow:'BOAS-VINDAS À GAEX',welcomeSubtitle:'Antes de entrar no caos, escolha um apelido e confira as regras do jogo.',usernameLabel:'SEU NOME DE JOGADOR',usernameHint:'Use um apelido. Não coloque seu nome completo, telefone, endereço ou outras informações pessoais.',privacyLink:'Política de Privacidade',termsLink:'Termos de Serviço',consentText:'Li e aceito a Política de Privacidade e os Termos de Serviço da GAEX.',enterGameBtn:'ENTRAR NO JOGO ▶',localDataNote:'Seu apelido e seu progresso ficam salvos apenas neste navegador. O jogo não envia esses dados para servidores.',closeBtn:'FECHAR',achievementsBtn:'CONQUISTAS',achievementsEyebrow:'SEUS MARCOS',achievementsTitle:'Conquistas',achievementUnlocked:'CONQUISTA DESBLOQUEADA',resetDataBtn:'APAGAR MEUS DADOS',profileLine:'JOGADOR: {name}',profileProgress:'PROGRESSO {done}/5',privacyTitle:'Política de Privacidade',termsTitle:'Termos de Serviço',policyPrivacy:[['1. Dados salvos','O PlaG 2D salva localmente neste navegador o apelido escolhido, o progresso, as pontuações, as skins, as conquistas e as preferências.'],['2. Sem envio externo','Esta versão não possui cadastro online, anúncios, analytics, rastreadores ou conexão com servidores da GAEX para transmitir esses dados.'],['3. Apelido','Escolha um apelido e não informe nome completo, telefone, endereço, escola, senha ou outros dados pessoais.'],['4. Controle do jogador','Você pode apagar os dados do jogo pelo botão “Apagar meus dados” nas configurações ou limpando os dados deste site no navegador.'],['5. Armazenamento','Os dados ficam no armazenamento local do navegador e podem ser removidos pelo próprio navegador. Não há sincronização entre aparelhos.'],['6. Contato','Dúvidas sobre esta política podem ser encaminhadas pelos canais oficiais publicados pela GAEX.']],policyTerms:[['1. Sobre o jogo','PlaG 2D é um jogo de plataforma gratuito desenvolvido pela GAEX. Esta versão é oferecida para entretenimento.'],['2. Uso adequado','Não tente interferir no funcionamento do site, explorar falhas para prejudicar outras pessoas ou distribuir versões modificadas como se fossem oficiais.'],['3. Progresso e disponibilidade','O progresso é salvo localmente. Limpar os dados do navegador, trocar de aparelho ou usar navegação privada pode apagar ou impedir o salvamento.'],['4. Conteúdo','Nome, marca, personagens, arte, áudio e demais elementos próprios do PlaG 2D pertencem aos seus respectivos criadores e não podem ser apresentados como criação de terceiros.'],['5. Atualizações','A GAEX pode atualizar o jogo para corrigir erros, melhorar o equilíbrio ou adicionar conteúdo.'],['6. Compras','Esta versão não solicita pagamentos reais. Pontos e skins são itens virtuais sem valor monetário.'],['7. Aceitação','Ao marcar a caixa de aceitação e entrar, você confirma que leu estes termos e a política de privacidade. Se não concordar, não continue para o jogo.']],achievements:[['first_clear','🌱','Primeiro passo','Conclua a primeira fase.'],['world_clear','🏆','A grande aventura','Conclua as cinco fases e vença The FirBoss.'],['boss_breaker','👹','Fim do reinado','Derrote The FirBoss.'],['bit_hoarder','🍫','Chuva de Cacau','Colete 25 Cacau Bits ao longo das partidas.'],['enemy_sweeper','💥','Sai da frente!','Derrote 20 inimigos.'],['chain_reaction','🧨','Reação em cadeia','Elimine dois inimigos com uma única explosão.'],['fashionista','🎨','Estilo próprio','Adquira quatro skins.'],['survivor','❤️','Ainda de pé','Conclua uma fase sem perder vidas.']],privacyHead:'POLÍTICA DE PRIVACIDADE · GAEX',termsHead:'TERMOS DE SERVIÇO · GAEX',nameInvalid:'Escolha um apelido de 3 a 16 caracteres.',confirmReset:'Isso apagará o progresso, as skins, as conquistas e o apelido salvos neste navegador. Continuar?',phaseRestartTitle:'FASE REINICIADA',phaseRestartText:'Suas três vidas acabaram. A fase atual foi reiniciada; seu progresso nas outras fases continua salvo.',retryStage:'TENTAR FASE NOVAMENTE ▶',bossName:'THE FIRBOSS'},
+ es:{slogan:'¡UN CUADRADO, UN CAOS 2D!',welcomeEyebrow:'BIENVENIDO A GAEX',welcomeSubtitle:'Antes de entrar en el caos, elige un apodo y revisa las reglas del juego.',usernameLabel:'TU NOMBRE DE JUGADOR',usernameHint:'Usa un apodo. No escribas tu nombre completo, teléfono, dirección ni otros datos personales.',privacyLink:'Política de privacidad',termsLink:'Términos de servicio',consentText:'He leído y acepto la Política de privacidad y los Términos de servicio de GAEX.',enterGameBtn:'ENTRAR AL JUEGO ▶',localDataNote:'Tu apodo y progreso solo se guardan en este navegador. El juego no envía estos datos a servidores.',closeBtn:'CERRAR',achievementsBtn:'LOGROS',achievementsEyebrow:'TUS HITOS',achievementsTitle:'Logros',achievementUnlocked:'LOGRO DESBLOQUEADO',resetDataBtn:'BORRAR MIS DATOS',profileLine:'JUGADOR: {name}',profileProgress:'PROGRESO {done}/5',privacyTitle:'Política de privacidad',termsTitle:'Términos de servicio',policyPrivacy:[['1. Datos guardados','PlaG 2D guarda localmente en este navegador el apodo, el progreso, las puntuaciones, las skins, los logros y las preferencias.'],['2. Sin envío externo','Esta versión no incluye registro online, anuncios, analytics, rastreadores ni conexión a servidores de GAEX para transmitir estos datos.'],['3. Apodo','Elige un apodo y no introduzcas nombre completo, teléfono, dirección, escuela, contraseña ni otros datos personales.'],['4. Control del jugador','Puedes borrar los datos desde el botón “Borrar mis datos” en ajustes o eliminando los datos de este sitio en el navegador.'],['5. Almacenamiento','Los datos permanecen en el almacenamiento local del navegador y pueden ser eliminados por el propio navegador. No hay sincronización entre dispositivos.'],['6. Contacto','Las preguntas sobre esta política pueden enviarse a través de los canales oficiales publicados por GAEX.']],policyTerms:[['1. Sobre el juego','PlaG 2D es un juego de plataformas gratuito desarrollado por GAEX y ofrecido para entretenimiento.'],['2. Uso adecuado','No intentes interferir con el sitio, explotar fallos para perjudicar a otras personas ni distribuir versiones modificadas como oficiales.'],['3. Progreso y disponibilidad','El progreso se guarda localmente. Borrar los datos del navegador, cambiar de dispositivo o usar navegación privada puede eliminar o impedir el guardado.'],['4. Contenido','El nombre, la marca, los personajes, el arte, el audio y otros elementos propios de PlaG 2D pertenecen a sus respectivos creadores.'],['5. Actualizaciones','GAEX puede actualizar el juego para corregir errores, mejorar el equilibrio o añadir contenido.'],['6. Compras','Esta versión no solicita pagos reales. Los puntos y skins son objetos virtuales sin valor monetario.'],['7. Aceptación','Al marcar la casilla y entrar, confirmas que has leído estos términos y la política de privacidad. Si no estás de acuerdo, no continúes.']],achievements:[['first_clear','🌱','Primer paso','Completa el primer nivel.'],['world_clear','🏆','La gran aventura','Completa los cinco niveles y vence a The FirBoss.'],['boss_breaker','👹','Fin del reinado','Derrota a The FirBoss.'],['bit_hoarder','🍫','Lluvia de cacao','Recoge 25 Cacau Bits en total.'],['enemy_sweeper','💥','¡Aparta!','Derrota a 20 enemigos.'],['chain_reaction','🧨','Reacción en cadena','Elimina dos enemigos con una sola explosión.'],['fashionista','🎨','Estilo propio','Consigue cuatro skins.'],['survivor','❤️','Aún en pie','Completa un nivel sin perder vidas.']],privacyHead:'POLÍTICA DE PRIVACIDAD · GAEX',termsHead:'TÉRMINOS DE SERVICIO · GAEX',nameInvalid:'Elige un apodo de 3 a 16 caracteres.',confirmReset:'Esto borrará el progreso, las skins, los logros y el apodo guardados en este navegador. ¿Continuar?',phaseRestartTitle:'NIVEL REINICIADO',phaseRestartText:'Se acabaron tus tres vidas. El nivel actual se reinició; el progreso de los otros niveles sigue guardado.',retryStage:'REINTENTAR NIVEL ▶',bossName:'THE FIRBOSS'},
+ en:{slogan:'ONE SQUARE, ONE 2D CHAOS!',welcomeEyebrow:'WELCOME TO GAEX',welcomeSubtitle:'Before jumping into the chaos, choose a nickname and review the game rules.',usernameLabel:'YOUR PLAYER NAME',usernameHint:'Use a nickname. Do not enter your full name, phone number, address, school, or other personal details.',privacyLink:'Privacy Policy',termsLink:'Terms of Service',consentText:'I have read and accept the GAEX Privacy Policy and Terms of Service.',enterGameBtn:'ENTER THE GAME ▶',localDataNote:'Your nickname and progress are saved only in this browser. The game does not send this data to servers.',closeBtn:'CLOSE',achievementsBtn:'ACHIEVEMENTS',achievementsEyebrow:'YOUR MILESTONES',achievementsTitle:'Achievements',achievementUnlocked:'ACHIEVEMENT UNLOCKED',resetDataBtn:'DELETE MY DATA',profileLine:'PLAYER: {name}',profileProgress:'PROGRESS {done}/5',privacyTitle:'Privacy Policy',termsTitle:'Terms of Service',policyPrivacy:[['1. Stored data','PlaG 2D stores your chosen nickname, progress, scores, skins, achievements, and preferences locally in this browser.'],['2. No external transfer','This version has no online account, ads, analytics, trackers, or connection to GAEX servers to transmit this data.'],['3. Nickname','Choose a nickname. Do not enter your full name, phone number, address, school, password, or other personal information.'],['4. Player control','You can delete game data with the “Delete my data” button in settings or by clearing this site’s data in your browser.'],['5. Storage','Data stays in your browser’s local storage and may be removed by the browser. There is no cross-device sync.'],['6. Contact','Questions about this policy can be sent through the official channels published by GAEX.']],policyTerms:[['1. About the game','PlaG 2D is a free platform game developed by GAEX and provided for entertainment.'],['2. Fair use','Do not interfere with the site, exploit bugs to harm others, or distribute modified versions as if they were official.'],['3. Progress and availability','Progress is stored locally. Clearing browser data, changing devices, or using private browsing may delete or prevent saves.'],['4. Content','The PlaG 2D name, brand, characters, artwork, audio, and other original elements belong to their respective creators.'],['5. Updates','GAEX may update the game to fix bugs, improve balance, or add content.'],['6. Purchases','This version does not request real payments. Points and skins are virtual items with no monetary value.'],['7. Acceptance','By checking the box and entering, you confirm that you have read these terms and the privacy policy. If you disagree, do not continue.']],achievements:[['first_clear','🌱','First Steps','Complete the first level.'],['world_clear','🏆','The Big Adventure','Complete all five levels and defeat The FirBoss.'],['boss_breaker','👹','End of the Reign','Defeat The FirBoss.'],['bit_hoarder','🍫','Cocoa Shower','Collect 25 Cacau Bits across runs.'],['enemy_sweeper','💥','Make Way!','Defeat 20 enemies.'],['chain_reaction','🧨','Chain Reaction','Defeat two enemies with one explosion.'],['fashionista','🎨','Style Icon','Own four skins.'],['survivor','❤️','Still Standing','Complete a level without losing a life.']],privacyHead:'PRIVACY POLICY · GAEX',termsHead:'TERMS OF SERVICE · GAEX',nameInvalid:'Choose a nickname between 3 and 16 characters.',confirmReset:'This will erase progress, skins, achievements, and the nickname saved in this browser. Continue?',phaseRestartTitle:'LEVEL RESTARTED',phaseRestartText:'All three lives are gone. The current level has restarted; progress in other levels remains saved.',retryStage:'RETRY LEVEL ▶',bossName:'THE FIRBOSS'}
+};
 
-  setTimeout(()=>{
-    document.getElementById("loader")?.remove();
-  },700);
+function tr(key,vars={}){let s=(EXTRA_I18N[lang]&&EXTRA_I18N[lang][key])??(I18N[lang]&&I18N[lang][key])??EXTRA_I18N.pt[key]??I18N.pt[key]??key;return String(s).replace(/\{(\w+)\}/g,(_,k)=>vars[k]??'')}
+const stageThemes={pt:I18N.pt.stageNames,es:I18N.es.stageNames,en:I18N.en.stageNames};
+const skins=[{id:'lime',price:0,body:'#d6f36a',light:'#f0ff9a',accent:'#6de1dc',dark:'#314a45'},{id:'cocoa',price:500,body:'#a96843',light:'#edb47d',accent:'#ffd078',dark:'#573b33'},{id:'azure',price:850,body:'#46c7e8',light:'#a3efff',accent:'#d8fcff',dark:'#27556b'},{id:'violet',price:1200,body:'#9c83ee',light:'#d2c5ff',accent:'#f6b8ff',dark:'#4a3a75'},{id:'sunset',price:1600,body:'#ff895e',light:'#ffc18a',accent:'#ffe17a',dark:'#743d45'},{id:'gold',price:2400,body:'#f4c94f',light:'#fff0a0',accent:'#fff9d3',dark:'#795b27'}];
+const skinMap=Object.fromEntries(skins.map(s=>[s.id,s]));
+let audioCtx=null,musicTimer=null,musicStep=0;
+function ensureAudio(){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;if(!audioCtx)audioCtx=new AC();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx}catch(_){return null}}
+function tone(freq,duration=.12,type='square',volume=.035,when=0){const a=ensureAudio();if(!a)return;try{const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(freq,a.currentTime+when);g.gain.setValueAtTime(.0001,a.currentTime+when);g.gain.exponentialRampToValueAtTime(volume,a.currentTime+when+.012);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+when+duration);o.connect(g);g.connect(a.destination);o.start(a.currentTime+when);o.stop(a.currentTime+when+duration+.025)}catch(_){}}
+function sfx(kind){if(!save.sound)return;const patterns={jump:[[420,.08,'square',.025],[610,.09,'triangle',.018,.045]],dash:[[180,.12,'sawtooth',.035],[90,.16,'triangle',.02,.04]],pulse:[[300,.12,'sine',.04],[520,.18,'sine',.03,.06],[760,.14,'triangle',.02,.12]],magnet:[[660,.1,'sine',.02],[880,.15,'sine',.02,.08]],echo:[[740,.09,'triangle',.025],[520,.14,'sine',.025,.08],[360,.18,'sine',.02,.15]],enemy:[[250,.08,'square',.022],[390,.09,'triangle',.025,.04]],collect:[[700,.08,'square',.02],[980,.11,'triangle',.02,.06]],hurt:[[150,.2,'sawtooth',.04],[90,.24,'square',.02,.1]],boss:[[180,.16,'sawtooth',.04],[330,.2,'triangle',.04,.08],[600,.18,'sine',.03,.16]],win:[[523,.16,'triangle',.03],[659,.16,'triangle',.03,.16],[784,.25,'triangle',.03,.32]],bomb:[[110,.28,'sawtooth',.05],[70,.34,'triangle',.045,.05],[480,.08,'square',.02,.1]],spring:[[360,.08,'triangle',.024],[720,.14,'sine',.03,.05]],achievement:[[520,.09,'triangle',.03],[780,.12,'triangle',.03,.1],[1040,.18,'sine',.03,.22]]};(patterns[kind]||[]).forEach(p=>tone(...p))}
 
-});
+const ACHIEVEMENT_IDS=['first_clear','world_clear','boss_breaker','bit_hoarder','enemy_sweeper','chain_reaction','fashionista','survivor'];
+function showAchievementToast(id){const data=EXTRA_I18N[lang].achievements.find(a=>a[0]===id);if(!data)return;$('achievementToastName').textContent=data[2];const t=$('achievementToast');t.classList.add('show');clearTimeout(showAchievementToast.timer);showAchievementToast.timer=setTimeout(()=>t.classList.remove('show'),3200)}
+function checkAchievements(){
+ const checks=[['first_clear',save.completed>=1],['world_clear',save.completed>=5&&save.achievements.includes('boss_breaker')],['boss_breaker',!!save.stats.bossDefeated],['bit_hoarder',save.stats.totalBits>=25],['enemy_sweeper',save.stats.totalKills>=20],['chain_reaction',save.stats.bombChains>=1],['fashionista',save.ownedSkins.length>=4],['survivor',!!save.stats.noHitClear]];
+ let changed=false;for(const [id,ok] of checks){if(ok&&!save.achievements.includes(id)){save.achievements.push(id);changed=true;showAchievementToast(id);sfx('achievement')}}if(changed){persistSave();renderAchievements()}
+}
+function renderAchievements(){const root=$('achievementsGrid');if(!root)return;const list=EXTRA_I18N[lang].achievements;root.innerHTML=list.map(a=>{const yes=save.achievements.includes(a[0]);return `<article class="achievement-card ${yes?'unlocked':''}"><div class="achievement-icon">${yes?a[1]:'🔒'}</div><div><strong>${yes?a[2]:(lang==='pt'?'Bloqueada':lang==='es'?'Bloqueado':'Locked')}</strong><small>${a[3]}</small></div></article>`}).join('');$('achievementCount').textContent=`${save.achievements.length}/${list.length} ${lang==='pt'?'conquistas':lang==='es'?'logros':'achievements'}`}
+function refreshProfile(){const n=save.username||'PLA';$('profileLine').textContent=tr('profileLine',{name:n.toUpperCase()});$('profileProgress').textContent=tr('profileProgress',{done:save.completed});}
+function openAchievements(){state='menu';showOnly('achievementsOverlay');updateVisibility();renderAchievements()}
+function openPolicy(type){const isPrivacy=type==='privacy';$('policyEyebrow').textContent=isPrivacy?EXTRA_I18N[lang].privacyHead:EXTRA_I18N[lang].termsHead;$('policyTitle').textContent=isPrivacy?tr('privacyTitle'):tr('termsTitle');const content=$('policyContent');content.replaceChildren();const blocks=isPrivacy?EXTRA_I18N[lang].policyPrivacy:EXTRA_I18N[lang].policyTerms;for(const [head,body] of blocks){const h=document.createElement('h3');h.textContent=head;const p=document.createElement('p');p.textContent=body;content.append(h,p)}showOnly('policyOverlay')}
+function validateWelcome(){const n=$('usernameInput').value.trim();const valid=/^[\p{L}\p{N}_ -]{3,16}$/u.test(n);$('enterGameBtn').disabled=!(valid&&$('consentCheck').checked);$('usernameInput').setCustomValidity(valid?'':tr('nameInvalid'));return valid}
+function enterGame(){if(!validateWelcome())return;save.username=$('usernameInput').value.trim();save.acceptedPolicies=true;save.acceptedAt=new Date().toISOString();persistSave();showOnly('menuOverlay');refreshProfile();updateVisibility()}
 
-/* MENU MOBILE */
+function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null}}
+function startMusic(){
+ stopMusic();if(!save.music||state!=='playing')return;const a=ensureAudio();if(!a)return;
+ // Five original stage themes: each has its own key, bass movement and melodic contour.
+ const themes=[
+  {root:261.63,scale:[0,2,4,7,9,7,4,2,0,4,7,11,9,7,4,2],chords:[[0,4,7],[5,9,12],[7,11,14],[4,7,11]]},
+  {root:196,scale:[0,3,7,10,7,3,5,8,12,10,7,5,3,7,10,14],chords:[[0,3,7],[8,12,15],[5,8,12],[10,14,17]]},
+  {root:220,scale:[0,3,5,7,10,12,10,7,5,3,0,5,7,10,12,15],chords:[[0,3,7],[5,8,12],[10,14,17],[7,10,14]]},
+  {root:246.94,scale:[0,2,5,9,7,5,2,0,4,7,11,9,7,4,2,5],chords:[[0,4,7],[9,12,16],[5,9,12],[7,11,14]]},
+  {root:164.81,scale:[0,3,7,10,12,10,7,3,0,5,8,12,10,8,5,3],chords:[[0,3,7],[8,12,15],[5,8,12],[10,14,17]]}
+ ];
+ const song=themes[levelIndex%themes.length];musicStep=0;
+ musicTimer=setInterval(()=>{
+  if(!save.music||state!=='playing'){stopMusic();return}
+  const step=musicStep%16,beat=Math.floor(step/4),root=song.root;
+  // Main melody: bright square-wave lead with a soft triangle double on phrase accents.
+  const note=root*Math.pow(2,song.scale[step]/12);tone(note,.16,'square',.010);
+  if(step%2===0)tone(note*2,.075,'triangle',.004);
+  // Warm bass and a three-note chord change every beat.
+  if(step%4===0){tone(root*.5*Math.pow(2,[0,0,2,0][beat]/12),.31,'triangle',.022);const chord=song.chords[beat];tone(root*Math.pow(2,chord[1]/12),.28,'sine',.007,.012);tone(root*Math.pow(2,chord[2]/12),.28,'sine',.006,.018)}
+  // Light arcade percussion keeps the groove moving without drowning out effects.
+  if(step===0||step===8)tone(82,.10,'sine',.023);
+  if(step===4||step===12)tone(190,.055,'square',.009);
+  if(step%2===1)tone(1500,.025,'square',.0025);
+  musicStep++;
+ },125);
+}
+function applyLanguage(){document.documentElement.lang=lang==='pt'?'pt-BR':lang;document.title='PlaG 2D — v1.0.0';document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;const value=(EXTRA_I18N[lang]&&EXTRA_I18N[lang][k])??(I18N[lang]&&I18N[lang][k]);if(typeof value==='string')el.textContent=value});$('recordLine').textContent=tr('recordLine',{score:record.toLocaleString(lang==='en'?'en-US':lang==='es'?'es-ES':'pt-BR')});$('walletLine').textContent=tr('walletLine',{points:save.wallet.toLocaleString(lang==='en'?'en-US':lang==='es'?'es-ES':'pt-BR')});$('shopWallet').textContent=tr('shopWallet',{points:save.wallet.toLocaleString()});$('languageSelect').value=lang;$('rotateTip').innerHTML=tr('rotate')+'<span>'+tr('rotateHint')+'</span>';$('game').setAttribute('aria-label','PlaG 2D');$('fullscreenBtn').title=lang==='pt'?'Tela cheia':lang==='es'?'Pantalla completa':'Fullscreen';$('pauseBtn').title=lang==='pt'?'Pausar':lang==='es'?'Pausar':'Pause';renderLevels();renderShop();renderAchievements();updateHud();updateSettingButtons();refreshProfile();$('welcomeLang').value=lang;$('usernameInput').placeholder=lang==='pt'?'Ex.: Pudinsz':lang==='es'?'Ej.: Jugador7':'e.g. Player7';$('enterGameBtn').textContent=tr('enterGameBtn')}
+function updateSettingButtons(){const items=[['musicToggle',save.music,'musicLabel'],['soundToggle',save.sound,'soundLabel'],['shakeToggle',save.shake,'shakeLabel']];for(const [id,on] of items){const b=$(id);b.classList.toggle('off',!on);let yes=on?tr('on'):tr('off');if(id==='soundToggle')yes=on?tr('onPlural'):tr('offPlural');b.textContent=yes}}
+function renderLevels(){unlockedLevel=Math.max(1,Math.min(5,save.completed+1));const root=$('levelCards');if(!root)return;root.innerHTML=levelData.map((d,i)=>{const open=i<unlockedLevel,done=i<save.completed;const name=stageThemes[lang][i];const status=done?tr('stageDone'):open?tr('stageUnlocked'):tr('stageLocked');return `<button class="level-card ${done?'completed':''} ${i===4?'boss-level':''}" data-level="${i}" ${open?'':'disabled'}><span class="level-number">${String(i+1).padStart(2,'0')} / 05</span><strong>${name}</strong><span class="level-status">${status}</span></button>`}).join('')}
+function renderShop(){const root=$('skinGrid');if(!root)return;$('shopWallet').textContent=tr('shopWallet',{points:save.wallet.toLocaleString()});root.innerHTML=skins.map(s=>{const owned=save.ownedSkins.includes(s.id),selected=save.skin===s.id;const action=selected?tr('equipped'):owned?tr('equip'):s.price===0?tr('free'):tr('buy');return `<article class="skin-card ${selected?'selected':''}"><div class="skin-preview"><div class="skin-blob" style="background:${s.body};border-color:${s.dark};box-shadow:0 0 12px ${s.accent}55"></div></div><strong>${I18N[lang].skinNames[s.id]}</strong><small>${I18N[lang].skinDesc[s.id]} · ${s.price===0?tr('free'):s.price.toLocaleString()+' pts'}</small><button data-skin="${s.id}" aria-pressed="${selected}">${action}</button></article>`}).join('')}
+function openLevelSelect(){state='menu';showOnly('levelSelectOverlay');updateVisibility();renderLevels()}
+function openShop(){state='menu';showOnly('shopOverlay');updateVisibility();renderShop()}
+function openSettings(){state='menu';showOnly('settingsOverlay');updateVisibility();updateSettingButtons()}
 
-const menu=document.getElementById("menu");
-const mobile=document.getElementById("mobileMenu");
+function rectHit(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function showOnly(id){overlays.forEach(n=>$(n).classList.toggle('hidden',n!==id))}
+function updateVisibility(){ui.hud.style.display=(state==='playing'||state==='paused')?'flex':'none';ui.mobile.classList.toggle('active',state==='playing');$('rotateTip').classList.toggle('show',state==='playing'&&window.matchMedia('(orientation: portrait) and (max-width: 760px)').matches);ui.record.textContent=tr('recordLine',{score:record.toLocaleString()});$('walletLine').textContent=tr('walletLine',{points:save.wallet.toLocaleString()});refreshProfile();if(ui.boss)ui.boss.style.display=(state==='playing'||state==='paused')&&level&&level.boss&&level.boss.alive?'block':'none';if(state!=='playing')stopMusic();else startMusic()}
+function makeLevel(i){const d=levelData[i];return {...d,platforms:d.platforms.map(a=>({x:a[0],y:a[1],prevX:a[0],prevY:a[1],w:a[2],h:a[3],type:'static',dx:0,dy:0})),spikes:d.spikes.map(a=>({x:a[0],y:a[1],w:a[2],h:a[3]})),bits:d.bits.map((b,n)=>({x:b[0],y:b[1],r:11,got:false,phase:n*.83,magnetized:false})),enemies:d.enemies.map((a,n)=>({type:a[0],x:a[1],y:a[2],min:a[3],max:a[4],speed:a[5],dir:n%2?-1:1,phase:n*.9,baseY:a[2],jump:0,stun:0,alive:true,w:a[0]==='flyer'?36:34,h:a[0]==='flyer'?27:34})),saws:d.saws.map((a,n)=>({x:a[0],baseX:a[0],y:a[1],range:a[2],speed:a[3],phase:n*.8,w:34,h:34})),moving:d.moving.map((a,n)=>{const axisValue=a[4]==='x'?a[0]:a[1];const ratio=clamp((axisValue-a[5])/(a[6]-a[5]),0,1);const phase=Math.asin(2*ratio-1)-time*a[7];return {x:a[0],y:a[1],prevX:a[0],prevY:a[1],w:a[2],h:a[3],axis:a[4],min:a[5],max:a[6],speed:a[7],phase,oldX:a[0],oldY:a[1],type:'moving',dx:0,dy:0}}),springs:(d.springs||[]).map(a=>({x:a[0],y:a[1],prevX:a[0],prevY:a[1],dx:0,dy:0,w:a[2],h:a[3],type:'spring',cooldown:0})),belts:(d.belts||[]).map(a=>({x:a[0],y:a[1],w:a[2],h:a[3],dir:a[4]})),bombs:(d.bombs||[]).map((a,n)=>({x:a[0],y:a[1],r:17,fuse:0,primed:false,spent:false,phase:n*.7})),fragile:(d.fragile||[]).map(a=>({x:a[0],y:a[1],w:a[2],h:a[3],type:'fragile',prevX:a[0],prevY:a[1],dx:0,dy:0,crumble:0,respawn:0,broken:false})),windZones:(d.windZones||[]).map(a=>({x:a[0],y:a[1],w:a[2],h:a[3],force:a[4]})),explosions:[],shockwaves:[],stageType:d.stageType||'forest',goal:{...d.goal,w:48,h:74},boss:d.boss?{...d.boss,hpMax:d.boss.hp,hp:d.boss.hp,baseX:d.boss.x,phase:0,mode:'watch',modeTimer:1.0,attackIndex:0,attackType:'slam',openTimer:0,flash:0,alive:true}:null,bossBolts:[]}}
+function createPlayer(){return {x:level.spawn.x,y:level.spawn.y,w:30,h:38,vx:0,vy:0,facing:1,onGround:false,airJump:true,invuln:0,dashTime:0,dashCooldown:0,magnetTime:0,magnetCooldown:0,echoCooldown:0,charges:3,trail:[],landSquash:0,blink:0,standingOn:null}}
+function resetLevel(){level=makeLevel(levelIndex);player=createPlayer();camera=0;bitCount=0;levelScore=0;pulsePads=[];pulseWaves=[];particles=[];history=[];historyClock=0;shake=0;updateHud()}
+function startGame(index=0){unlockedLevel=Math.max(1,Math.min(5,save.completed+1));score=0;levelScore=0;levelIndex=clamp(index,0,unlockedLevel-1);lives=3;resetLevel();state='playing';showOnly(null);ensureAudio();updateVisibility();persistSave()}
+function updateHud(){if(!level||!player)return;ui.score.textContent=String(score+levelScore).padStart(5,'0');ui.bits.textContent=bitCount+'/'+level.bits.length;ui.lives.textContent='♥ '.repeat(Math.max(0,lives)).trim()||'—';ui.charges.textContent=player.charges?'◆ '.repeat(player.charges).trim():'—';ui.level.textContent=String(levelIndex+1).padStart(2,'0');if(level.boss){ui.boss.style.display=(state==='playing'||state==='paused')&&level.boss.alive?'block':'none';ui.bossBar.style.width=(Math.max(0,level.boss.hp)/level.boss.hpMax*100)+'%';ui.bossState.textContent=!level.boss.alive?tr('bossDead'):level.boss.openTimer>0?tr('bossOpen'):level.boss.mode==='telegraph'?(level.boss.attackType==='slam'?(lang==='pt'?'PREPARE-SE: ONDA!':lang==='es'?'¡PREPÁRATE: ONDA!':'GET READY: WAVE!'):(lang==='pt'?'PREPARE-SE: DISPARO!':lang==='es'?'¡PREPÁRATE: DISPARO!':'GET READY: VOLLEY!')):tr('bossArmored')}}
+function addParticles(x,y,color,count=10,power=180){for(let i=0;i<count;i++){const a=Math.random()*Math.PI*2,s=35+Math.random()*power;particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:.35+Math.random()*.48,max:.83,size:2+Math.random()*4,color})}}
+function gameOver(){const failedStage=levelIndex+1;lives=3;resetLevel();state='result';$('resultEyebrow').textContent=tr('phaseRestartTitle');$('resultTitle').textContent=tr('phaseRestartTitle');$('resultText').textContent=tr('phaseRestartText')+' ('+failedStage+'/5)';$('nextBtn').textContent=tr('retryStage');$('nextBtn').onclick=()=>{resetLevel();state='playing';showOnly(null);updateVisibility()};persistSave();showOnly('resultOverlay');updateVisibility()}
+function finishLevel(){const bitBonus=bitCount*50;levelScore+=bitBonus+Math.max(0,Math.round((level.width/3000)*100));score+=levelScore;save.wallet+=levelScore;save.completed=Math.max(save.completed,levelIndex+1);unlockedLevel=Math.max(unlockedLevel,Math.min(5,levelIndex+2));if(lives===3)save.stats.noHitClear=true;levelScore=0;if(score>record){record=score;save.record=record}persistSave();checkAchievements();state='result';const final=levelIndex===levelData.length-1;$('resultEyebrow').textContent=final?tr('allDone'):tr('phaseDone',{n:levelIndex+1});$('resultTitle').textContent=final?(lang==='pt'?'LENDÁRIO!':lang==='es'?'¡LEGENDARIO!':'LEGENDARY!'):(lang==='pt'?'Boa!':lang==='es'?'¡Bien!':'Nice!');$('resultText').textContent=(final?tr('resultFinal'):tr('resultStage',{bonus:bitBonus}))+' '+tr('resultStats',{score:score.toLocaleString(),lives});$('nextBtn').textContent=final?tr('playAgain'):tr('nextStage');$('nextBtn').onclick=()=>{if(final){startGame(0)}else{levelIndex++;resetLevel();state='playing';showOnly(null);updateVisibility()}};sfx('win');showOnly('resultOverlay');updateVisibility()}
+function hitPlayer(){if(player.invuln>0||player.dashTime>0)return;lives--;save.stats.deaths++;persistSave();shake=save.shake?13:0;sfx('hurt');addParticles(player.x+15,player.y+19,'#ff7188',22,240);if(lives<=0){gameOver();return}player.x=level.spawn.x;player.y=level.spawn.y;player.vx=0;player.vy=0;player.onGround=false;player.airJump=true;player.standingOn=null;player.invuln=1.7;player.dashTime=0;pulsePads=[];pulseWaves=[];history=[];historyClock=0;updateHud()}
+function jump(){if(player.onGround){player.vy=-650;player.onGround=false;player.standingOn=null;player.airJump=true;player.landSquash=.14;addParticles(player.x+15,player.y+player.h,'#d6f36a',7,100);sfx('jump')}else if(player.airJump){player.vy=-590;player.airJump=false;addParticles(player.x+15,player.y+player.h,'#ffab62',9,130);sfx('jump')}}
+function dash(){if(player.dashCooldown>0||player.dashTime>0)return;player.dashTime=.2;player.dashCooldown=.78;player.vy=0;player.vx=player.facing*840;player.invuln=Math.max(player.invuln,.24);player.trail=[];addParticles(player.x+15,player.y+19,'#ffb66f',12,140);sfx('dash')}
+function pulse(){if(player.charges<=0||pulsePads.length>=2)return;player.charges--;save.stats.pulses++;persistSave();const px=clamp(player.x+player.facing*116-76,8,level.width-168);const py=clamp(player.y+18,118,445);pulsePads.push({x:px,y:py,prevX:px,prevY:py,w:168,h:19,life:5.6,max:5.6,phase:0,type:'pulse',dx:0,dy:0,springUsed:false});pulseWaves.push({x:px+84,y:py+5,r:12,life:.52,max:.52});for(const e of level.enemies){if(e.alive&&Math.hypot(e.x+e.w/2-(player.x+15),e.y+e.h/2-(player.y+18))<150)e.stun=Math.max(e.stun,1.15)}addParticles(px+70,py,'#6de1dc',24,220);levelScore+=20;updateHud();sfx('pulse')}
+function magnet(){if(player.magnetCooldown>0)return;player.magnetTime=2.2;player.magnetCooldown=5.2;for(const b of level.bits){b.magnetized=!b.got&&Math.hypot(b.x-(player.x+15),b.y-(player.y+18))<300}addParticles(player.x+15,player.y+18,'#c6a1ff',12,100);sfx('magnet')}
+function echo(){if(player.echoCooldown>0||history.length<5)return;const target=history.find(h=>time-h.t>=1.1)||history[0];if(!target)return;player.x=target.x;player.y=target.y;player.vx=0;player.vy=0;player.onGround=false;player.standingOn=null;player.airJump=true;player.invuln=Math.max(player.invuln,.85);player.echoCooldown=8;history=[];historyClock=0;addParticles(player.x+15,player.y+19,'#ff8dac',24,230);shake=save.shake?4:0;sfx('echo')}
+function collectBit(b){if(b.got)return;b.got=true;bitCount++;save.stats.totalBits++;checkAchievements();player.charges=Math.min(4,player.charges+1);levelScore+=100;addParticles(b.x,b.y,'#ffcf70',15,190);updateHud();sfx('collect')}
+function isSafePosition(x,y){const r={x:x+4,y:y+4,w:22,h:30};for(const s of level.spikes)if(rectHit(r,{x:s.x,y:s.y+4,w:s.w,h:s.h-4}))return false;for(const s of level.saws)if(rectHit(r,{x:s.x-14,y:s.y-14,w:28,h:28}))return false;if(level.boss&&level.boss.alive&&rectHit(r,{x:level.boss.x,y:level.boss.y,w:level.boss.w,h:level.boss.h}))return false;return y<H+10&&x>=0&&x<level.width-30}
+function updateMoving(dt){for(const m of level.moving){const ox=m.x,oy=m.y;m.prevX=ox;m.prevY=oy;if(m.axis==='x')m.x=m.min+(m.max-m.min)*(.5+.5*Math.sin(time*m.speed+m.phase));else m.y=m.min+(m.max-m.min)*(.5+.5*Math.sin(time*m.speed+m.phase));m.dx=m.x-ox;m.dy=m.y-oy}}
+function updateEnemies(dt){for(const e of level.enemies){if(!e.alive)continue;if(e.stun>0){e.stun=Math.max(0,e.stun-dt);continue}if(e.type==='flyer'){e.x+=e.dir*e.speed*dt;if(e.x<e.min||e.x>e.max){e.dir*=-1;e.x=clamp(e.x,e.min,e.max)}e.y=e.baseY+Math.sin(time*3+e.phase)*23}else if(e.type==='hopper'){e.x+=e.dir*e.speed*.58*dt;if(e.x<e.min||e.x>e.max){e.dir*=-1;e.x=clamp(e.x,e.min,e.max)}e.jump-=dt;if(e.jump<=0){e.vy=-390;e.jump=1.15+Math.random()*.55}e.vy=(e.vy||0)+1100*dt;e.y+=e.vy*dt;if(e.y>e.baseY){e.y=e.baseY;e.vy=0}}else{e.x+=e.dir*e.speed*dt;if(e.x<e.min||e.x>e.max){e.dir*=-1;e.x=clamp(e.x,e.min,e.max)}}}}
+function updateBoss(dt){
+ const b=level.boss;if(!b||!b.alive)return;b.phase+=dt;b.flash=Math.max(0,b.flash-dt);
+ const enraged=b.hp<=Math.ceil(b.hpMax/2);
+ b.x=b.min+(b.max-b.min)*(.5+.5*Math.sin(time*(enraged?.82:.58)));
+ if(b.openTimer>0){b.openTimer=Math.max(0,b.openTimer-dt);if(b.openTimer===0){b.mode='recover';b.modeTimer=.85}}
+ else{
+  b.modeTimer-=dt;
+  if(b.modeTimer<=0){
+   if(b.mode==='watch'||b.mode==='recover'){b.mode='telegraph';b.modeTimer=enraged?.58:.78;b.attackType=b.attackIndex%2===0?'slam':'volley';addParticles(b.x+b.w/2,b.y+53,b.attackType==='slam'?'#ffb45e':'#ff8dac',12,120)}
+   else if(b.mode==='telegraph'){
+    if(b.attackType==='slam'){const center=b.x+b.w/2;level.shockwaves.push({x:center,y:458,vx:-260,life:2.8,r:16});level.shockwaves.push({x:center,y:458,vx:260,life:2.8,r:16});addParticles(center,458,'#ffb45e',22,190)}
+    else{const dir=(player.x+player.w/2)<(b.x+b.w/2)?-1:1;const sx=b.x+(dir<0?0:b.w),sy=b.y+60;for(const vy of (enraged?[-115,0,115]:[-80,0,80]))level.bossBolts.push({x:sx,y:sy,vx:dir*(enraged?310:265),vy,life:3.8,r:9});addParticles(sx,sy,'#ff8dac',15,150)}
+    b.mode='attack';b.modeTimer=.52;b.attackIndex++;
+   }else if(b.mode==='attack'){b.mode='exposed';b.openTimer=enraged?2.15:2.35;b.modeTimer=0;addParticles(b.x+b.w/2,b.y+56,'#ffe078',27,190)}
+  }
+ }
+ for(const bolt of level.bossBolts){bolt.x+=bolt.vx*dt;bolt.y+=(bolt.vy||0)*dt;bolt.life-=dt}
+ level.bossBolts=level.bossBolts.filter(bolt=>bolt.life>0&&bolt.x>-30&&bolt.x<level.width+30&&bolt.y>-30&&bolt.y<H+30);
+ for(const wave of level.shockwaves){wave.x+=wave.vx*dt;wave.life-=dt;wave.r=Math.min(27,wave.r+18*dt)}
+ level.shockwaves=level.shockwaves.filter(w=>w.life>0&&w.x>-50&&w.x<level.width+50);
+}
+function damageBoss(){const b=level.boss;if(!b||!b.alive||b.openTimer<=0)return false;b.hp--;b.openTimer=0;b.mode='recover';b.modeTimer=.95;b.flash=.32;player.dashTime=0;player.vx=-player.facing*360;player.vy=-210;player.invuln=Math.max(player.invuln,.55);levelScore+=350;shake=save.shake?8:0;addParticles(b.x+b.w/2,b.y+45,'#ffbd70',26,220);sfx('boss');if(b.hp<=0){b.alive=false;level.bossBolts=[];save.stats.bossDefeated=true;checkAchievements();levelScore+=1500;addParticles(b.x+b.w/2,b.y+b.h/2,'#ffe078',65,340)}updateHud();return true}
 
-menu?.addEventListener("click",()=>{
+function updateStageMechanics(dt){
+ // Forest: spring pads launch the player into optional high routes.
+ for(const sp of level.springs){sp.cooldown=Math.max(0,sp.cooldown-dt);if(sp.cooldown===0&&player.vy>=0&&player.x+player.w>sp.x&&player.x<sp.x+sp.w&&player.y+player.h<=sp.y+9&&player.y+player.h+player.vy*dt>=sp.y){player.y=sp.y-player.h;player.vy=-900;player.onGround=false;player.standingOn=null;player.airJump=true;sp.cooldown=.75;addParticles(sp.x+sp.w/2,sp.y,'#d9f36a',18,190);sfx('spring')}}
+ // Factory: conveyor belts create momentum while the player is grounded on them.
+ for(const belt of level.belts){if(player.onGround&&player.x+player.w>belt.x&&player.x<belt.x+belt.w&&Math.abs(player.y+player.h-(belt.y+belt.h))<12){player.x=clamp(player.x+belt.dir*160*dt,0,level.width-player.w);player.vx=clamp(player.vx+belt.dir*120*dt,-420,420)}}
+ // Tower: gusts of wind and crumbling platforms change the jump rhythm.
+ for(const zone of level.windZones){const cx=player.x+player.w/2,cy=player.y+player.h/2;if(cx>zone.x&&cx<zone.x+zone.w&&cy>zone.y&&cy<zone.y+zone.h){player.vy+=zone.force*620*dt;}}
+ for(const f of level.fragile){if(f.broken){f.respawn-=dt;if(f.respawn<=0){f.broken=false;f.crumble=0}continue}if(f.crumble>0){f.crumble-=dt;if(f.crumble<=0){f.broken=true;f.respawn=3.2;addParticles(f.x+f.w/2,f.y,'#d0b5ff',14,135)}}}
+ // Bombs arm when approached. Their blast can clear nearby enemies and trigger chains.
+ for(const bomb of level.bombs){if(bomb.spent)continue;bomb.phase+=dt;if(!bomb.primed&&Math.hypot(player.x+player.w/2-bomb.x,player.y+player.h/2-bomb.y)<98){bomb.primed=true;bomb.fuse=1.05;sfx('bomb')}
+ if(bomb.primed){bomb.fuse-=dt;if(bomb.fuse<=0){bomb.spent=true;level.explosions.push({x:bomb.x,y:bomb.y,r:12,max:145,life:.48,maxLife:.48});addParticles(bomb.x,bomb.y,'#ffb45e',40,330);sfx('bomb');let hits=0;for(const e of level.enemies){if(e.alive&&Math.hypot(e.x+e.w/2-bomb.x,e.y+e.h/2-bomb.y)<145){e.alive=false;hits++;save.stats.totalKills++;levelScore+=180}}if(hits>=2){save.stats.bombChains++;checkAchievements()}if(hits)checkAchievements();let chained=false;for(const other of level.bombs){if(!other.spent&&!other.primed&&other!==bomb&&Math.hypot(other.x-bomb.x,other.y-bomb.y)<185){other.primed=true;other.fuse=.22;chained=true}}if(chained){save.stats.bombChains++;checkAchievements()}if(Math.hypot(player.x+player.w/2-bomb.x,player.y+player.h/2-bomb.y)<78){hitPlayer();return false}if(level.boss&&level.boss.alive&&Math.hypot(level.boss.x+level.boss.w/2-bomb.x,level.boss.y+level.boss.h/2-bomb.y)<150&&level.boss.openTimer>0)damageBoss();persistSave()}}}
+ for(const ex of level.explosions){ex.life-=dt;ex.r+=(ex.max/ex.maxLife)*dt}level.explosions=level.explosions.filter(ex=>ex.life>0);
+ return true;
+}
 
-  const opened=mobile.classList.toggle("open");
+function update(dt){if(state!=='playing')return;time+=dt;updateMoving(dt);updateEnemies(dt);updateBoss(dt);const p=player;p.invuln=Math.max(0,p.invuln-dt);p.dashCooldown=Math.max(0,p.dashCooldown-dt);p.magnetCooldown=Math.max(0,p.magnetCooldown-dt);p.echoCooldown=Math.max(0,p.echoCooldown-dt);p.magnetTime=Math.max(0,p.magnetTime-dt);p.landSquash=Math.max(0,p.landSquash-dt);
+ if(queued.jump){jump();queued.jump=false}if(queued.dash){dash();queued.dash=false}if(queued.pulse){pulse();queued.pulse=false}if(queued.magnet){magnet();queued.magnet=false}if(queued.echo){echo();queued.echo=false}
+ const solids=[...level.platforms,...level.moving,...pulsePads,...level.springs,...level.fragile.filter(f=>!f.broken)];
+ // Carry a rider by the platform's actual frame delta exactly once. This avoids the old
+ // double-translation that could teleport the player when a moving platform changed height.
+ if(p.standingOn&&solids.includes(p.standingOn)){p.x+=p.standingOn.dx||0;p.y+=p.standingOn.dy||0}else p.standingOn=null;
+ const dir=(controls.right?1:0)-(controls.left?1:0);if(p.dashTime>0){p.dashTime-=dt;p.vx=p.facing*840;if(p.dashTime<=0)p.dashTime=0}else{if(dir){p.vx+=dir*2050*dt;p.facing=dir}else p.vx*=Math.pow(.0008,dt);p.vx=clamp(p.vx,-330,330)}
+ const oldX=p.x,oldY=p.y;p.x+=p.vx*dt;p.x=clamp(p.x,0,level.width-p.w);
+ // Horizontal side collision only when crossing a platform edge; platforms are one-way on top.
+ for(const s of solids){const sx=s.prevX??s.x,sy=s.prevY??s.y;const vertical=p.y+p.h>sy+5&&p.y<sy+s.h-3;if(!vertical)continue;if(p.vx>0&&oldX+p.w<=sx+5&&p.x+p.w>s.x+2){p.x=s.x-p.w;if(p.dashTime>0)p.dashTime=0;p.vx=0}else if(p.vx<0&&oldX>=sx+s.w-5&&p.x<s.x+s.w-2){p.x=s.x+s.w;if(p.dashTime>0)p.dashTime=0;p.vx=0}}
+ p.vy=Math.min(980,p.vy+GRAVITY*dt);p.y+=p.vy*dt;p.onGround=false;p.standingOn=null;
+ for(const s of solids){const prevTop=s.prevY??s.y;const overlapX=p.x+p.w>s.x+2&&p.x<s.x+s.w-2;if(!overlapX)continue;if(p.vy>=0&&oldY+p.h<=prevTop+10&&p.y+p.h>=s.y){p.y=s.y-p.h;p.vy=0;p.onGround=true;p.standingOn=s;p.airJump=true;if(s.type==='fragile'&&s.crumble===0)s.crumble=1.05;if(s.type==='spring'&&s.cooldown===0){s.cooldown=.75;p.vy=-900;p.onGround=false;p.standingOn=null;addParticles(s.x+s.w/2,s.y,'#d9f36a',18,190);sfx('spring')}if(s.type==='pulse'&&!s.springUsed){s.springUsed=true;p.vy=-520;p.onGround=false;p.standingOn=null;addParticles(p.x+p.w/2,p.y+p.h,'#6de1dc',13,150);sfx('jump')}}else if(p.vy<0&&oldY>=prevTop+s.h-4&&p.y<=s.y+s.h){p.y=s.y+s.h;p.vy=0}}
+ if(updateStageMechanics(dt)===false)return;if(p.y>H+115){hitPlayer();return}
+ for(const sp of level.spikes){if(rectHit({x:p.x+5,y:p.y+8,w:p.w-10,h:p.h-10},{x:sp.x+2,y:sp.y+5,w:sp.w-4,h:sp.h-5})){hitPlayer();return}}
+ for(const s of level.saws){s.x=s.baseX+Math.sin(time*s.speed+s.phase)*s.range;if(rectHit({x:p.x+4,y:p.y+4,w:p.w-8,h:p.h-8},{x:s.x-14,y:s.y-14,w:28,h:28})){hitPlayer();return}}
+ for(const e of level.enemies){if(!e.alive)continue;const er={x:e.x+3,y:e.y+3,w:e.w-6,h:e.h-5};if(rectHit(p,er)){const stomp=p.vy>120&&oldY+p.h<=e.y+13;if(p.dashTime>0||stomp){e.alive=false;save.stats.totalKills++;checkAchievements();p.vy=stomp?-420:-170;levelScore+=150;addParticles(e.x+e.w/2,e.y+e.h/2,'#ffab62',20,210);sfx('enemy')}else{hitPlayer();return}}}
+ if(level.boss&&level.boss.alive){const b=level.boss;for(const wave of level.shockwaves){if(Math.abs((p.x+p.w/2)-wave.x)<wave.r+16&&Math.abs((p.y+p.h)-wave.y)<22){hitPlayer();return}}if(rectHit(p,{x:b.x+5,y:b.y+8,w:b.w-10,h:b.h-8})){const stomp=p.vy>120&&oldY+p.h<=b.y+20;if(b.openTimer>0&&(p.dashTime>0||stomp)){damageBoss()}else{hitPlayer();return}}for(const bolt of level.bossBolts){if(rectHit({x:p.x+5,y:p.y+5,w:p.w-10,h:p.h-10},{x:bolt.x-bolt.r,y:bolt.y-bolt.r,w:bolt.r*2,h:bolt.r*2})){bolt.life=0;hitPlayer();return}}}
+ if(p.magnetTime>0){for(const b of level.bits){if(!b.got&&b.magnetized){const dx=(p.x+15)-b.x,dy=(p.y+18)-b.y,dist=Math.hypot(dx,dy)||1;b.x+=dx/dist*590*dt;b.y+=dy/dist*590*dt;if(dist<27)collectBit(b)}}}
+ for(const b of level.bits){if(!b.got&&Math.hypot((p.x+15)-b.x,(p.y+18)-b.y)<27)collectBit(b)}
+ for(const pad of pulsePads){pad.life-=dt;pad.phase+=dt}pulsePads=pulsePads.filter(pad=>pad.life>0);for(const wave of pulseWaves){wave.life-=dt;wave.r+=450*dt}pulseWaves=pulseWaves.filter(w=>w.life>0);
+ for(const part of particles){part.life-=dt;part.x+=part.vx*dt;part.y+=part.vy*dt;part.vx*=Math.pow(.08,dt);part.vy+=330*dt}particles=particles.filter(part=>part.life>0);
+ historyClock+=dt;if(historyClock>=.095){historyClock=0;if(isSafePosition(p.x,p.y)){history.push({x:p.x,y:p.y,t:time});while(history.length&&time-history[0].t>2.7)history.shift()}}
+ if(rectHit(p,level.goal)){if(level.boss&&level.boss.alive){addParticles(level.goal.x+24,level.goal.y+30,'#ff7188',7,90);return}finishLevel();return}
+ const target=clamp(p.x-W*.38,0,level.width-W);camera+=(target-camera)*Math.min(1,dt*5.5);shake=Math.max(0,shake-dt*24);updateHud();
+}
+function drawStageIdentity(theme){
+ if(level.stageType==='forest'){
+  for(let i=0;i<10;i++){const x=((i*155-camera*.2)%1120+1120)%1120-55;ctx.fillStyle=i%2?'#193f3d':'#23483f';ctx.fillRect(x,280+(i%3)*24,22,180);ctx.fillStyle='#6c9c62';ctx.beginPath();ctx.arc(x+8,270+(i%3)*22,32+(i%2)*8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#d9f36a66';ctx.fillRect(x+7,245+(i%3)*22,5,5)}
+  for(let i=0;i<7;i++){const x=((i*215-camera*.33)%1050+1050)%1050;ctx.fillStyle='#d9f36a';ctx.beginPath();ctx.arc(x,100+(i*47)%210,3+Math.sin(time*3+i)*1.5,0,Math.PI*2);ctx.fill()}
+ }else if(level.stageType==='factory'){
+  for(let i=0;i<8;i++){const x=((i*160-camera*.16)%1100+1100)%1100-50;ctx.fillStyle='#172b3d';ctx.fillRect(x,175,76,280);ctx.fillStyle='#d69a57';ctx.fillRect(x+8,205,10,110);ctx.fillStyle='#70e8df';ctx.fillRect(x+26,240,35,7);ctx.fillStyle='#4c6373';ctx.fillRect(x+12,180,52,14)}
+ }else if(level.stageType==='canyon'){
+  for(let i=0;i<12;i++){const x=((i*124-camera*.21)%1120+1120)%1120-50;ctx.fillStyle=i%2?'#7a4548':'#925449';ctx.beginPath();ctx.moveTo(x,455);ctx.lineTo(x+28,170+(i%4)*29);ctx.lineTo(x+70,455);ctx.fill();ctx.fillStyle='#ffb45e44';ctx.fillRect(x+25,245+(i%3)*23,4,90)}
+  ctx.fillStyle='#f27e5140';ctx.fillRect(0,464,W,76)
+ }else if(level.stageType==='tower'){
+  for(let i=0;i<7;i++){const x=((i*190-camera*.14)%1200+1200)%1200-80;ctx.fillStyle='#263d5a';ctx.fillRect(x,80,38,380);ctx.fillStyle='#9db6d155';ctx.fillRect(x+10,110,6,300);ctx.fillStyle='#d0b5ff66';ctx.beginPath();ctx.arc(x+19,185+(i%3)*70,16,0,Math.PI*2);ctx.fill()}
+  ctx.strokeStyle='#d0b5ff44';ctx.lineWidth=2;for(let i=0;i<4;i++){const x=((i*270-camera*.1)%1100+1100)%1100;ctx.beginPath();ctx.arc(x,260+Math.sin(time+i)*20,32+i*7,0,Math.PI*2);ctx.stroke()}
+ }else{
+  ctx.fillStyle='#301c3d';for(let i=0;i<8;i++){const x=((i*150-camera*.1)%1100+1100)%1100;ctx.fillRect(x,95,28,360);ctx.fillRect(x+45,155,10,260)}
+  ctx.strokeStyle='#ff8dac55';ctx.lineWidth=5;for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(480,260,90+i*42+Math.sin(time*2+i)*7,0,Math.PI*2);ctx.stroke()}
+ }
+}
 
-  menu.setAttribute(
-    "aria-expanded",
-    opened ? "true" : "false"
-  );
+function drawBackground(theme){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,theme.top);g.addColorStop(.72,theme.mid);g.addColorStop(1,theme.bottom);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);for(let i=0;i<9;i++){const x=((i*190-camera*.16)%1650)-100;ctx.fillStyle=i%2?'#ffffff0b':theme.hill;ctx.beginPath();ctx.moveTo(x,455);ctx.lineTo(x+100,245+(i%3)*31);ctx.lineTo(x+245,455);ctx.fill()}for(let i=0;i<48;i++){const x=((i*137-camera*.28)%1050+1050)%1050,y=34+(i*71)%360;ctx.fillStyle=i%4===0?theme.accent+'55':'#d7eddf24';ctx.fillRect(x,y,3+(i%3)*2,3+(i%3)*2)}ctx.fillStyle='#08131c45';ctx.fillRect(0,455,W,85);drawStageIdentity(theme)}
+function drawPlatform(s,theme){const x=Math.round(s.x-camera);if(x+s.w<-30||x>W+30)return;ctx.fillStyle='#0c1b24';ctx.fillRect(x,s.y,s.w,s.h);ctx.fillStyle=s.type==='moving'?'#6de1dc':theme.platform;ctx.fillRect(x,s.y,s.w,5);ctx.fillStyle=s.type==='moving'?'#d6ffff':'#e2d4a866';for(let k=8;k<s.w;k+=27)ctx.fillRect(x+k,s.y+8,8,3);ctx.fillStyle='#263b43';ctx.fillRect(x,s.y+s.h-5,s.w,5);if(s.type==='moving'){ctx.fillStyle='#c7ffff';ctx.fillRect(x+8,s.y+6,5,5);ctx.fillRect(x+s.w-13,s.y+6,5,5)}}
+function drawSpikes(sp){const x=sp.x-camera;ctx.fillStyle='#ff7188';for(let k=0;k<sp.w;k+=18){ctx.beginPath();ctx.moveTo(x+k,sp.y+sp.h);ctx.lineTo(x+k+9,sp.y);ctx.lineTo(x+k+18,sp.y+sp.h);ctx.fill()}ctx.fillStyle='#8e3f58';ctx.fillRect(x,sp.y+sp.h-3,sp.w,3)}
+function drawEnemy(e){if(!e.alive)return;const x=e.x-camera,y=e.y;ctx.save();if(e.stun>0){ctx.globalAlpha=.62;ctx.shadowColor='#6de1dc';ctx.shadowBlur=15}if(e.type==='flyer'){ctx.fillStyle='#10212a';ctx.fillRect(x+4,y+7,28,18);ctx.fillStyle='#a98ce8';ctx.fillRect(x+7,y+3+Math.sin(time*12+e.phase)*3,22,20);ctx.fillStyle='#f6e8ff';ctx.fillRect(x+12,y+10,5,5);ctx.fillRect(x+23,y+10,5,5);ctx.fillStyle='#37284f';ctx.fillRect(x+13,y+12,3,4);ctx.fillRect(x+24,y+12,3,4);ctx.fillStyle='#d3b9ff';ctx.fillRect(x-3,y+10,8,5);ctx.fillRect(x+31,y+10,8,5)}else{const hop=e.type==='hopper'?Math.max(0,e.baseY-e.y):0;ctx.fillStyle='#101d24';ctx.fillRect(x+1,y+8,32,26);ctx.fillStyle=e.type==='hopper'?'#ff9f69':'#ed7185';ctx.fillRect(x+3,y+7,28,25);ctx.fillStyle='#ffe9cd';ctx.fillRect(x+8,y+13,6,7);ctx.fillRect(x+21,y+13,6,7);ctx.fillStyle='#172630';ctx.fillRect(x+10,y+15,3,4);ctx.fillRect(x+23,y+15,3,4);ctx.fillStyle='#502d42';ctx.fillRect(x+8,y+28,7,4+Math.sin(time*11+e.phase)*2);ctx.fillRect(x+21,y+28,7,4-Math.sin(time*11+e.phase)*2);if(e.type==='hopper'){ctx.fillStyle='#ffca83';ctx.fillRect(x+5,y-3,7,8);ctx.fillRect(x+22,y-3,7,8)}}ctx.restore()}
+function drawSaw(s){const x=s.x-camera,y=s.y;ctx.save();ctx.translate(x,y);ctx.rotate(time*3.2);ctx.fillStyle='#ff8c98';for(let i=0;i<8;i++){ctx.rotate(Math.PI/4);ctx.beginPath();ctx.moveTo(0,-9);ctx.lineTo(7,-25);ctx.lineTo(0,-31);ctx.lineTo(-7,-25);ctx.fill()}ctx.fillStyle='#542b43';ctx.beginPath();ctx.arc(0,0,15,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffd0cb';ctx.beginPath();ctx.arc(0,0,6,0,Math.PI*2);ctx.fill();ctx.restore()}
+function drawBit(b){if(b.got)return;const y=b.y+Math.sin(time*4+b.phase)*5,x=b.x-camera;ctx.save();ctx.translate(x,y);ctx.rotate(time*1.7+b.phase);ctx.shadowColor='#ffbd5c';ctx.shadowBlur=13;ctx.fillStyle='#ffca70';ctx.fillRect(-8,-8,16,16);ctx.shadowBlur=0;ctx.fillStyle='#fff2bd';ctx.fillRect(-3,-6,5,5);ctx.restore()}
+function drawGoal(){const gx=level.goal.x-camera,gy=level.goal.y;ctx.save();ctx.translate(gx+24,gy+37);const locked=!!(level.boss&&level.boss.alive);ctx.strokeStyle=locked?'#ff7188':'#d6f36a';ctx.lineWidth=5;ctx.shadowColor=locked?'#ff7188':'#d6f36a';ctx.shadowBlur=21;ctx.beginPath();ctx.ellipse(0,0,20+Math.sin(time*3)*2,33,0,0,Math.PI*2);ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle=locked?'#ff718822':'#d6f36a22';ctx.beginPath();ctx.ellipse(0,0,15,28,0,0,Math.PI*2);ctx.fill();ctx.fillStyle=locked?'#ffc0c6':'#f5ffb2';ctx.fillRect(-2,-19,4,38);ctx.restore()}
+function drawPlayer(){const p=player,x=p.x-camera,y=p.y;ctx.save();if(p.invuln>0&&Math.floor(time*16)%2===0)ctx.globalAlpha=.34;const run=Math.abs(p.vx)>40&&p.onGround?Math.sin(time*17):0;const bob=p.onGround?Math.abs(run)*1.6:0;const squash=p.landSquash>0?Math.sin(p.landSquash*22)*2:0;if(p.dashTime>0){for(let i=1;i<=4;i++){ctx.globalAlpha=.13;ctx.fillStyle='#ffbd70';ctx.fillRect(x-p.facing*i*13,y+4,29,31)}ctx.globalAlpha=p.invuln>0&&Math.floor(time*16)%2===0?.34:1}
+ ctx.fillStyle='#07131b88';ctx.fillRect(x-3,y+p.h+2,36,6);ctx.translate(x+15,y+20+bob);if(p.dashTime>0)ctx.rotate(p.facing*.08);ctx.scale(1+Math.max(0,squash)*.025,1-Math.max(0,squash)*.025);ctx.translate(-15,-20);
+ ctx.fillStyle='#0d1c22';ctx.fillRect(-2,3,34,35);const skin=skinMap[save.skin]||skinMap.lime;ctx.fillStyle=skin.body;ctx.fillRect(0,1,30,34);ctx.fillStyle=skin.light;ctx.fillRect(4,4,22,5);ctx.fillStyle='#15242b';const eyeX=p.facing>0?18:7;ctx.fillRect(eyeX,13,5,7);ctx.fillRect(eyeX+8,13,4,7);ctx.fillStyle='#fff';ctx.fillRect(eyeX+1,14,2,2);ctx.fillStyle=skin.accent;ctx.fillRect(p.facing>0?2:20,25,10,5);ctx.fillStyle=skin.dark;ctx.fillRect(4,34+run*2,8,6);ctx.fillRect(19,34-run*2,8,6);ctx.fillStyle=skin.accent;ctx.fillRect(13,-8,4,9);ctx.fillRect(11,-11,8,4);ctx.restore();
+ if(p.magnetTime>0){ctx.save();ctx.globalAlpha=.35+.2*Math.sin(time*20);ctx.strokeStyle='#c6a1ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(x+15,y+19,42+Math.sin(time*14)*4,0,Math.PI*2);ctx.stroke();ctx.restore()}
+ if(p.dashTime>0){ctx.fillStyle='#ffd39d';ctx.fillRect(x-5,y+17,4,4);ctx.fillRect(x+31,y+17,4,4)}
+}
+function drawBoss(){
+ const b=level&&level.boss;if(!b||!b.alive)return;const x=b.x-camera,y=b.y,open=b.openTimer>0,warning=b.mode==='telegraph';
+ ctx.save();ctx.translate(x,y);const bob=Math.sin(time*4)*2;ctx.translate(0,bob);
+ // Ground shadow and heavy feet establish the boss silhouette.
+ ctx.fillStyle='#080d16aa';ctx.beginPath();ctx.ellipse(b.w/2,b.h+5,b.w*.58,10,0,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#292b43';ctx.fillRect(7,b.h-19,39,20);ctx.fillRect(b.w-46,b.h-19,39,20);
+ ctx.fillStyle='#52506b';ctx.fillRect(10,b.h-21,33,7);ctx.fillRect(b.w-43,b.h-21,33,7);
+ // Broad armored torso.
+ ctx.shadowColor=open?'#ffe078':'#ff7188';ctx.shadowBlur=open?25:10;ctx.fillStyle=b.flash>0?'#fff1cf':'#55465f';ctx.fillRect(10,24,b.w-20,b.h-47);ctx.shadowBlur=0;
+ ctx.fillStyle='#85708a';ctx.fillRect(17,29,b.w-34,9);ctx.fillStyle='#382d49';ctx.fillRect(16,43,b.w-32,b.h-72);
+ // Shoulder guards, arms and crown.
+ ctx.fillStyle='#9b6d79';ctx.fillRect(-2,31,25,31);ctx.fillRect(b.w-23,31,25,31);ctx.fillStyle='#d69a72';ctx.fillRect(0,55,19,29);ctx.fillRect(b.w-19,55,19,29);
+ ctx.fillStyle='#6d526f';ctx.fillRect(21,7,b.w-42,22);ctx.fillStyle='#d6a36f';ctx.beginPath();ctx.moveTo(25,10);ctx.lineTo(34,-8);ctx.lineTo(43,10);ctx.lineTo(53,-12);ctx.lineTo(64,10);ctx.lineTo(75,-8);ctx.lineTo(86,10);ctx.closePath();ctx.fill();
+ // Two sharp eyes; the warning phase glows amber.
+ ctx.fillStyle=warning?'#ffd36a':'#ffe9b0';ctx.fillRect(31,32,13,7);ctx.fillRect(b.w-44,32,13,7);ctx.fillStyle='#25243a';ctx.fillRect(36,33,5,5);ctx.fillRect(b.w-40,33,5,5);
+ // Core: armored shutter when closed, bright exposed reactor during the attack recovery.
+ ctx.fillStyle='#211b32';ctx.fillRect(b.w/2-25,53,50,37);ctx.strokeStyle=open?'#fff0a0':'#a96d83';ctx.lineWidth=3;ctx.strokeRect(b.w/2-25,53,50,37);
+ if(open){const glow=1+Math.sin(time*15)*.13;ctx.shadowColor='#ffe078';ctx.shadowBlur=25;ctx.fillStyle='#ffe078';ctx.beginPath();ctx.arc(b.w/2,71,13*glow,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#fffce0';ctx.beginPath();ctx.arc(b.w/2,71,5,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#fff0a0';ctx.lineWidth=3;ctx.beginPath();ctx.arc(b.w/2,71,24+Math.sin(time*12)*3,0,Math.PI*2);ctx.stroke()}else{ctx.fillStyle='#b65e7b';ctx.fillRect(b.w/2-18,59,36,25);ctx.fillStyle='#e59aae';ctx.fillRect(b.w/2-12,64,24,15);ctx.fillStyle='#49334e';ctx.fillRect(b.w/2-5,68,10,7)}
+ // Warning stripes pulse before the next attack.
+ if(warning){ctx.globalAlpha=.55+.35*Math.sin(time*18);ctx.strokeStyle=b.attackType==='slam'?'#ffbd70':'#ff8dac';ctx.lineWidth=4;ctx.strokeRect(-5,19,b.w+10,b.h-35);ctx.globalAlpha=1}
+ ctx.restore();
+ ctx.fillStyle='#fff0d4';ctx.font='1000 11px system-ui';ctx.textAlign='center';ctx.fillText('THE FIRBOSS',x+b.w/2,y-18);
+ if(warning){ctx.fillStyle=b.attackType==='slam'?'#ffd08b':'#ff9ab1';ctx.font='1000 10px system-ui';ctx.fillText(b.attackType==='slam'?(lang==='pt'?'ONDA DE CHOQUE!':lang==='es'?'¡ONDA DE CHOQUE!':'SHOCKWAVE!'):(lang==='pt'?'RAJADA!':lang==='es'?'¡RÁFAGA!':'VOLLEY!'),x+b.w/2,y-4)}
+}
+function drawBossBolts(){if(!level||!level.bossBolts)return;for(const bolt of level.bossBolts){const x=bolt.x-camera,y=bolt.y;ctx.save();ctx.strokeStyle='#ff789677';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x-bolt.vx*.055,y-(bolt.vy||0)*.055);ctx.lineTo(x,y);ctx.stroke();ctx.shadowColor='#ff799d';ctx.shadowBlur=16;ctx.fillStyle='#ff7896';ctx.beginPath();ctx.arc(x,y,bolt.r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#ffe4a8';ctx.fillRect(x-3,y-3,6,6);ctx.restore()}}
 
-});
+function drawStageProps(){
+ for(const sp of level.springs){const x=sp.x-camera;ctx.fillStyle='#244b43';ctx.fillRect(x,sp.y+7,sp.w,11);ctx.fillStyle='#d9f36a';ctx.fillRect(x+4,sp.y,sp.w-8,7);ctx.fillStyle='#f3ffc0';ctx.fillRect(x+9,sp.y+2,sp.w-18,2)}
+ for(const belt of level.belts){const x=belt.x-camera;ctx.fillStyle='#1a2933';ctx.fillRect(x,belt.y,belt.w,belt.h);ctx.fillStyle='#ffbd70';ctx.fillRect(x,belt.y,belt.w,4);for(let k=5;k<belt.w;k+=20){ctx.fillStyle='#d9d0bb';ctx.fillRect(x+k+(time*45*belt.dir%20),belt.y+7,10,5)}}
+ for(const f of level.fragile){if(f.broken)continue;const x=f.x-camera;ctx.fillStyle='#564a78';ctx.fillRect(x,f.y,f.w,f.h);ctx.fillStyle='#d0b5ff';ctx.fillRect(x,f.y,f.w,4);if(f.crumble>0){ctx.globalAlpha=.5+Math.sin(time*25)*.3;ctx.fillStyle='#fff';for(let i=9;i<f.w;i+=24)ctx.fillRect(x+i,f.y+7,4,4);ctx.globalAlpha=1}}
+ for(const z of level.windZones){const x=z.x-camera;ctx.save();ctx.globalAlpha=.12+.06*Math.sin(time*3);ctx.fillStyle='#c6eaff';ctx.fillRect(x,z.y,z.w,z.h);ctx.globalAlpha=.55;ctx.strokeStyle='#bcefff';ctx.lineWidth=2;for(let i=0;i<4;i++){const yy=z.y+22+i*48+Math.sin(time*3+i)*8;ctx.beginPath();ctx.moveTo(x+14,yy);ctx.bezierCurveTo(x+z.w*.3,yy-18,x+z.w*.7,yy+18,x+z.w-14,yy);ctx.stroke()}ctx.restore()}
+ for(const b of level.bombs){if(b.spent)continue;const x=b.x-camera,y=b.y;ctx.save();ctx.translate(x,y);ctx.fillStyle='#18232b';ctx.beginPath();ctx.arc(0,0,b.r,0,Math.PI*2);ctx.fill();ctx.strokeStyle=b.primed?'#ff7188':'#ffbd70';ctx.lineWidth=4;ctx.stroke();ctx.fillStyle=b.primed&&Math.floor(time*14)%2?'#fff1a7':'#ff9f61';ctx.fillRect(-6,-6,12,12);ctx.strokeStyle='#ffe1a8';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(5,-13);ctx.lineTo(11,-21);ctx.stroke();ctx.fillStyle='#fff';ctx.fillRect(8,-23,4,4);ctx.restore()}
+ for(const ex of level.explosions){ctx.save();ctx.globalAlpha=clamp(ex.life/ex.maxLife,0,1);ctx.strokeStyle='#ffbd70';ctx.lineWidth=7;ctx.shadowColor='#ff8a55';ctx.shadowBlur=20;ctx.beginPath();ctx.arc(ex.x-camera,ex.y,ex.r,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#ffe69a55';ctx.beginPath();ctx.arc(ex.x-camera,ex.y,ex.r*.55,0,Math.PI*2);ctx.fill();ctx.restore()}
+ for(const w of level.shockwaves){ctx.save();ctx.globalAlpha=clamp(w.life,0,1);ctx.fillStyle='#ff8dac';ctx.shadowColor='#ff7188';ctx.shadowBlur=14;ctx.beginPath();ctx.ellipse(w.x-camera,w.y,w.r*1.5,w.r*.55,0,0,Math.PI*2);ctx.fill();ctx.restore()}
+}
 
-/* FECHAR MENU AO CLICAR */
-
-mobile?.querySelectorAll("a").forEach(a=>{
-
-  a.addEventListener("click",()=>{
-
-    mobile.classList.remove("open");
-
-    menu?.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-
-  });
-
-});
-
-/* ANIMAÇÕES */
-
-const observer=new IntersectionObserver(
-
-  entries=>{
-
-    entries.forEach(e=>{
-
-      if(e.isIntersecting){
-
-        e.target.classList.add("visible");
-
-        observer.unobserve(e.target);
-
-      }
-
-    });
-
-  },
-
-  {threshold:.08}
-
-);
-
-document
-  .querySelectorAll(".reveal")
-  .forEach(el=>observer.observe(el));
-
+function drawParticles(){for(const a of particles){ctx.globalAlpha=Math.max(0,a.life/a.max);ctx.fillStyle=a.color;ctx.fillRect(a.x-camera,a.y,a.size,a.size)}ctx.globalAlpha=1}
+function drawAbilityHints(){if(!player)return;const p=player;ctx.save();ctx.font='900 10px system-ui';ctx.textAlign='right';const lines=[[tr('dash'),p.dashCooldown],[tr('magnet'),p.magnetCooldown],[tr('echo'),p.echoCooldown]];lines.forEach((it,i)=>{const ready=it[1]<=0;ctx.fillStyle=ready?'#d6f36a':'#ffffff88';ctx.fillText(it[0]+(ready?' '+tr('ready'):' '+it[1].toFixed(1)+'s'),W-17,104+i*14)});ctx.restore()}
+function draw(){const dpr=view.dpr,cw=view.cssW,ch=view.cssH;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#071118';ctx.fillRect(0,0,cw,ch);ctx.translate(view.ox,view.oy);ctx.scale(view.scale,view.scale);const theme=themes[levelIndex]||themes[0];ctx.save();if(shake>0&&save.shake)ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);if(level){drawBackground(theme);drawStageProps();for(const s of level.platforms)drawPlatform(s,theme);for(const s of level.moving)drawPlatform(s,theme);for(const pad of pulsePads){const x=pad.x-camera;ctx.globalAlpha=clamp(pad.life*1.7,0,1);ctx.shadowColor='#6de1dc';ctx.shadowBlur=20;ctx.fillStyle='#6de1dc';ctx.fillRect(x,pad.y,pad.w,pad.h);ctx.shadowBlur=0;ctx.fillStyle='#e1ffff';ctx.fillRect(x+8,pad.y+3,pad.w-16,3);ctx.globalAlpha=1}for(const wave of pulseWaves){ctx.globalAlpha=clamp(wave.life/wave.max,0,1)*.7;ctx.strokeStyle='#8ffbfa';ctx.lineWidth=4;ctx.beginPath();ctx.arc(wave.x-camera,wave.y,wave.r,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1}for(const sp of level.spikes)drawSpikes(sp);for(const s of level.saws)drawSaw(s);for(const b of level.bits)drawBit(b);for(const e of level.enemies)drawEnemy(e);drawBossBolts();drawBoss();drawGoal();drawPlayer();drawParticles();drawAbilityHints();ctx.fillStyle='#ffffff99';ctx.font='900 11px system-ui';ctx.textAlign='left';ctx.fillText(tr('stageCanvas',{n:levelIndex+1,name:stageThemes[lang][levelIndex].toUpperCase()}),16,H-14);if(level.boss&&level.boss.alive){ctx.fillStyle='#ffe6ae';ctx.font='900 10px system-ui';ctx.textAlign='center';ctx.fillText(level.boss.openTimer>0?tr('bossOpen'):tr('bossArmored'),W/2,78)}}else{drawBackground(themes[0]);ctx.fillStyle='#d6f36a';ctx.font='1000 42px system-ui';ctx.textAlign='center';ctx.fillText('PlaG 2D',W/2,H/2)}ctx.restore();ctx.restore()}
+function resize(){const r=canvas.getBoundingClientRect();const dpr=Math.min(2,window.devicePixelRatio||1);view.cssW=Math.max(1,r.width);view.cssH=Math.max(1,r.height);view.dpr=dpr;canvas.width=Math.round(view.cssW*dpr);canvas.height=Math.round(view.cssH*dpr);view.scale=Math.min(view.cssW/W,view.cssH/H);view.ox=(view.cssW-W*view.scale)/2;view.oy=(view.cssH-H*view.scale)/2}
+function loop(ts){const dt=Math.min(.033,(ts-lastFrame)/1000||0);lastFrame=ts;update(dt);draw();requestAnimationFrame(loop)}
+function setControl(name,on){if(name==='left'||name==='right')controls[name]=on;const b=document.querySelector('[data-control="'+name+'"]');if(b)b.classList.toggle('pressed',on)}
+function queueAction(name){if(name in queued)queued[name]=true}
+async function toggleFullscreen(){const shell=$('gameShell');if(document.fullscreenElement){try{await document.exitFullscreen()}catch(_){}}else if(document.fullscreenEnabled&&shell.requestFullscreen){try{await shell.requestFullscreen({navigationUI:'hide'});try{if(screen.orientation&&screen.orientation.lock)await screen.orientation.lock('landscape')}catch(_){}}catch(_){document.body.classList.toggle('pseudo-fullscreen')}}else{document.body.classList.toggle('pseudo-fullscreen')}setTimeout(resize,100)}
+function onFullscreenChange(){if(!document.fullscreenElement)document.body.classList.remove('pseudo-fullscreen');setTimeout(resize,80)}
+$('playBtn').addEventListener('click',()=>{ensureAudio();openLevelSelect()});$('shopBtn').addEventListener('click',openShop);$('achievementsBtn').addEventListener('click',openAchievements);$('settingsBtn').addEventListener('click',openSettings);$('howBtn').addEventListener('click',()=>showOnly('howOverlay'));$('backMenuBtn').addEventListener('click',()=>showOnly('menuOverlay'));$('levelBackBtn').addEventListener('click',()=>showOnly('menuOverlay'));$('shopBackBtn').addEventListener('click',()=>showOnly('menuOverlay'));$('settingsBackBtn').addEventListener('click',()=>showOnly('menuOverlay'));
+$('privacyLink').addEventListener('click',()=>openPolicy('privacy'));$('termsLink').addEventListener('click',()=>openPolicy('terms'));$('welcomeLang').addEventListener('change',e=>{lang=e.target.value;save.lang=lang;persistSave();applyLanguage();validateWelcome()});$('usernameInput').addEventListener('input',validateWelcome);$('consentCheck').addEventListener('change',validateWelcome);$('enterGameBtn').addEventListener('click',enterGame);
+document.addEventListener('click',e=>{const close=e.target.closest('[data-close]');if(close){const id=close.dataset.close;if(id==='pauseOverlay'){state='playing';showOnly(null);updateVisibility();return}showOnly(id==='policyOverlay'?'welcomeOverlay':'menuOverlay');return}});
+$('resetDataBtn').addEventListener('click',()=>{if(!confirm(tr('confirmReset')))return;try{localStorage.removeItem(SAVE_KEY);localStorage.removeItem(OLD_SAVE_KEY);localStorage.removeItem('plag2d_record')}catch(_){};location.reload()});
+$('levelCards').addEventListener('click',e=>{const b=e.target.closest('[data-level]');if(!b||b.disabled)return;const n=Number(b.dataset.level);ensureAudio();startGame(n)});
+$('skinGrid').addEventListener('click',e=>{const b=e.target.closest('button[data-skin]');if(!b)return;const id=b.dataset.skin,skin=skinMap[id];if(!skin)return;if(save.ownedSkins.includes(id)){save.skin=id;persistSave();renderShop();return}if(save.wallet<skin.price){$('shopWallet').textContent=tr('shopNeed');return}save.wallet-=skin.price;save.ownedSkins.push(id);save.skin=id;persistSave();renderShop();refreshProfile();$('walletLine').textContent=tr('walletLine',{points:save.wallet.toLocaleString()});checkAchievements();sfx('collect')});
+$('languageSelect').addEventListener('change',e=>{lang=e.target.value;save.lang=lang;persistSave();applyLanguage()});
+$('musicToggle').addEventListener('click',()=>{save.music=!save.music;persistSave();updateSettingButtons();if(save.music&&state==='playing')startMusic();else stopMusic()});$('soundToggle').addEventListener('click',()=>{save.sound=!save.sound;persistSave();updateSettingButtons();if(save.sound)sfx('collect')});$('shakeToggle').addEventListener('click',()=>{save.shake=!save.shake;persistSave();updateSettingButtons()});
+$('pauseBtn').addEventListener('click',()=>{if(state==='playing'){state='paused';showOnly('pauseOverlay');updateVisibility()}});$('resumeBtn').addEventListener('click',()=>{if(state==='paused'){state='playing';showOnly(null);updateVisibility()}});$('restartBtn').addEventListener('click',()=>{resetLevel();state='playing';showOnly(null);updateVisibility()});$('pauseMenuBtn').addEventListener('click',()=>{state='menu';showOnly('menuOverlay');updateVisibility()});$('menuBtn').addEventListener('click',()=>{state='menu';showOnly('menuOverlay');updateVisibility()});$('fullscreenBtn').addEventListener('click',toggleFullscreen);
+for(const b of document.querySelectorAll('[data-control]')){const name=b.dataset.control;const down=e=>{e.preventDefault();if(state!=='playing')return;ensureAudio();if(name==='left'||name==='right')setControl(name,true);else queueAction(name);try{b.setPointerCapture(e.pointerId)}catch(_){}};const up=e=>{e.preventDefault();if(name==='left'||name==='right')setControl(name,false)};b.addEventListener('pointerdown',down);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);b.addEventListener('lostpointercapture',up)}
+const keyNames={ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right'};
+window.addEventListener('keydown',e=>{if(e.key==='Escape'){const visible=overlays.find(id=>!$(id).classList.contains('hidden'));if(visible==='policyOverlay'){showOnly('welcomeOverlay');return}if(visible&&visible!=='welcomeOverlay'&&visible!=='menuOverlay'){showOnly(state==='paused'?'pauseOverlay':'menuOverlay');return}}const activeKeys=['ArrowLeft','ArrowRight','ArrowUp',' ','a','A','d','D','w','W','x','X','c','C','v','V','Shift','Escape'];if(activeKeys.includes(e.key)&&state==='playing')e.preventDefault();if(e.repeat&&[' ','ArrowUp','w','W','x','X','c','C','v','V','Shift'].includes(e.key))return;if(keyNames[e.key])setControl(keyNames[e.key],true);if(e.key===' '||e.key==='ArrowUp'||e.key==='w'||e.key==='W')queueAction('jump');if(e.key==='Shift')queueAction('dash');if(e.key==='x'||e.key==='X')queueAction('pulse');if(e.key==='c'||e.key==='C')queueAction('magnet');if(e.key==='v'||e.key==='V')queueAction('echo');if(e.key==='Escape'){if(state==='playing')$('pauseBtn').click();else if(state==='paused')$('resumeBtn').click()}});
+window.addEventListener('keyup',e=>{if(keyNames[e.key])setControl(keyNames[e.key],false)});
+window.addEventListener('blur',()=>{setControl('left',false);setControl('right',false);if(state==='playing')$('pauseBtn').click()});document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='playing')$('pauseBtn').click()});
+// Modal panels use native touch scrolling. The canvas and action buttons own their gestures via touch-action:none.window.addEventListener('resize',resize);document.addEventListener('fullscreenchange',onFullscreenChange);const rotateQuery=window.matchMedia('(orientation: portrait) and (max-width: 760px)');rotateQuery.addEventListener?.('change',()=>{if(state==='playing')$('rotateTip').classList.toggle('show',rotateQuery.matches)});
+resetLevel();resize();applyLanguage();if(save.acceptedPolicies&&save.username){showOnly('menuOverlay')}else{showOnly('welcomeOverlay');$('usernameInput').value=save.username||'';$('welcomeLang').value=lang;validateWelcome()}updateVisibility();refreshProfile();renderAchievements();requestAnimationFrame(loop);
+})();
 </script>
-
 </body>
 </html>
