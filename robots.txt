@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://gaexgames.github.io/sitemap.xml
