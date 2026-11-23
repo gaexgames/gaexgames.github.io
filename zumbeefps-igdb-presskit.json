@@ -1,0 +1,56 @@
+{
+  "name": "ZumbeeFPS",
+  "slug": "zumbeefps",
+  "summary": "ZumbeeFPS é um jogo de tiro em primeira pessoa com temática de zumbis e estilo arcade. O jogador enfrenta hordas, utiliza diferentes armas e participa de partidas single-player com suporte offline.",
+  "genres": [
+    "Shooter",
+    "Arcade"
+  ],
+  "themes": [
+    "Zombies",
+    "Survival"
+  ],
+  "game_modes": [
+    "Single-player"
+  ],
+  "player_perspectives": [
+    "First person"
+  ],
+  "platforms": [
+    "PC (Microsoft Windows)",
+    "Android"
+  ],
+  "game_engines": [
+    "Unity 2022.3"
+  ],
+  "involved_companies": [
+    {
+      "name": "GAEX Games Studio",
+      "developer": true,
+      "publisher": true
+    }
+  ],
+  "websites": [
+    {
+      "type": "Official website",
+      "url": "https://gaexgames.github.io/zumbeefps/"
+    },
+    {
+      "type": "Itch.io",
+      "url": "https://gaexgames.itch.io/zumbeefps"
+    }
+  ],
+  "release_information": {
+    "version_1_0_global_launch": "2026-04-25",
+    "version_2_0_0_target_date": "2027-01-30",
+    "version_2_0_0_status": "In development; target date, not a confirmed release date"
+  },
+  "official_store_status": {
+    "google_play": "Pre-registration announcement pending; no public pre-registration URL is available yet"
+  },
+  "notes": [
+    "This file is a human-readable reference sheet, not an automatic IGDB submission.",
+    "IGDB editors should review platform release availability and regional release dates before adding release-date records.",
+    "No IGDB game ID, rating, age rating, player-count figure, or critic score is asserted here."
+  ]
+}

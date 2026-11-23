@@ -1,0 +1,16 @@
+{
+  "name": "GAEX Games Studio",
+  "short_name": "GAEX",
+  "description": "Conectando pessoas, com a tecnologia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "/gaexgames.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
